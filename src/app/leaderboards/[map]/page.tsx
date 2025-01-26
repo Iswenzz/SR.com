@@ -3,6 +3,8 @@ import { FC, use } from "react";
 import Data from "./_components/Data";
 import { getLeaderboard, getMaps, getModes, getWays } from "../_actions/main";
 
+export const revalidate = 3600;
+
 const Leaderboards: FC<Props> = ({ params, searchParams }) => {
 	const { map = "mp_dr_lolz" } = use(params);
 	const { mode = "190", way = "normal_0" } = use(searchParams);

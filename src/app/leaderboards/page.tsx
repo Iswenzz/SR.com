@@ -3,6 +3,8 @@ import { use } from "react";
 import Search from "./_components/Search";
 import { getMaps } from "./_actions/main";
 
+export const revalidate = 3600;
+
 const Leaderboards = () => {
 	const maps = use(getMaps());
 

@@ -3,6 +3,8 @@ import { use } from "react";
 import { queryServers } from "./_actions/main";
 import Server from "./_components/Server";
 
+export const revalidate = 30;
+
 const Home = () => {
 	const servers = use(queryServers());
 

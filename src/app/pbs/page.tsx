@@ -3,6 +3,8 @@ import { use } from "react";
 import Search from "./_components/Search";
 import { getCount, getPlayers } from "./_actions/main";
 
+export const revalidate = 3600;
+
 const PBS = () => {
 	const players = use(getPlayers());
 	const count = use(getCount());
