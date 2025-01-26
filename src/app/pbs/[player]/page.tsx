@@ -14,6 +14,7 @@ const PBS: FC<Props> = ({ params, searchParams }) => {
 
 	return (
 		<Data
+			type={type}
 			name={name}
 			player={player}
 			players={players}

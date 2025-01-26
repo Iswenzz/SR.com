@@ -13,9 +13,9 @@ export const getEntries = async (type = "pbs", player = "0") => {
 			select: { name: true, map: true, mode: true, way: true, time: true }
 		});
 		const pbsWrs: Leaderboard[] = await prisma.$queryRaw`
-			SELECT map, mode, way, time
+			SELECT map, player, mode, way, time, run
 			FROM (
-				SELECT player, map, mode, way, time, tas,
+				SELECT player, map, mode, way, time, tas, run,
 				MIN(time) OVER (PARTITION BY map, mode, way, tas) AS minTime
 				FROM leaderboards
 			) b

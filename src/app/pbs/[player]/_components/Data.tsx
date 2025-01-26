@@ -10,7 +10,7 @@ import { Table } from "@/components";
 import { pbsColumns } from "./Columns";
 import Search from "../../_components/Search";
 
-const Data: FC<Props> = ({ name, player, players, entries, wrs, wrsModded }) => (
+const Data: FC<Props> = ({ type, name, player, players, entries, wrs, wrsModded }) => (
 	<section className="flex flex-auto flex-col space-y-8">
 		<div className="flex items-center bg-base-300/40 backdrop-blur-2xl rounded-box px-8 py-4 gap-12">
 			<Link className="btn btn-md btn-ghost" href={`/pbs/${player}`}>
@@ -45,11 +45,12 @@ const Data: FC<Props> = ({ name, player, players, entries, wrs, wrsModded }) => 
 			</div>
 			<Search className="w-full" player={player} players={players} />
 		</div>
-		<Table className="max-h-[75vh]" data={entries} columns={pbsColumns} />
+		<Table className="max-h-[75vh]" data={entries} columns={pbsColumns(type)} />
 	</section>
 );
 
 type Props = {
+	type?: string;
 	name?: string;
 	player: string;
 	players: string[];
