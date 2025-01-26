@@ -11,7 +11,7 @@ const NavbarMenu = () => (
 		</MenuButton>
 		<MenuItems
 			anchor="bottom start"
-			className="mt-2 w-52 origin-top-right rounded-xl backdrop-blur-xl bg-black/40 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0"
+			className="mt-2 w-52 origin-top-right rounded-xl backdrop-blur-xl bg-black/40 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 z-40"
 			transition
 		>
 			<MenuItem>

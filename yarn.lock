@@ -181,6 +181,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hookform/resolvers@npm:^3.10.0":
+  version: 3.10.0
+  resolution: "@hookform/resolvers@npm:3.10.0"
+  peerDependencies:
+    react-hook-form: ^7.0.0
+  checksum: 10c0/7ee44533b4cdc28c4fa2a94894c735411e5a1f830f4a617c580533321a9b901df0cc8c1e2fad81ad8d55154ebc5cb844cf9c116a3148ffae2bc48758c33cbb8e
+  languageName: node
+  linkType: hard
+
 "@humanfs/core@npm:^0.19.1":
   version: 0.19.1
   resolution: "@humanfs/core@npm:0.19.1"
@@ -1270,6 +1279,22 @@ __metadata:
   version: 4.1.0
   resolution: "axobject-query@npm:4.1.0"
   checksum: 10c0/c470e4f95008f232eadd755b018cb55f16c03ccf39c027b941cd8820ac6b68707ce5d7368a46756db4256fbc91bb4ead368f84f7fb034b2b7932f082f6dc0775
+  languageName: node
+  linkType: hard
+
+"bad-words@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "bad-words@npm:4.0.0"
+  dependencies:
+    badwords-list: "npm:^2.0.1-4"
+  checksum: 10c0/5146c10a97d47d94458c1064da7506b865117a5c85fa4f1351f79205c1732b23f70d1eacfd13dde451aaa15d774bb9a0e3915251791faf7a4a57f051b4a47d90
+  languageName: node
+  linkType: hard
+
+"badwords-list@npm:^2.0.1-4":
+  version: 2.0.1-4
+  resolution: "badwords-list@npm:2.0.1-4"
+  checksum: 10c0/2386192de7df8b61ec32ba3290b6cd994726e58f63ee4948d7d23f7f7d15ded54187fd54b4efbb77c9e72b0770bb9c88141da72130a2b719cb48db9230521994
   languageName: node
   linkType: hard
 
@@ -4282,6 +4307,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^7.54.2":
+  version: 7.54.2
+  resolution: "react-hook-form@npm:7.54.2"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18 || ^19
+  checksum: 10c0/6eebead2900e3d369a989e7a20429f390dc75b3897142aa3107f1f6dabb9ae64fed201ea98cdcd8676e40466c97748aeb0c0d83264f5bd3a84dbc0b8e4863415
+  languageName: node
+  linkType: hard
+
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -4830,6 +4864,7 @@ __metadata:
   resolution: "sr.com@workspace:."
   dependencies:
     "@headlessui/react": "npm:^2.2.0"
+    "@hookform/resolvers": "npm:^3.10.0"
     "@next/bundle-analyzer": "npm:^15.1.6"
     "@prisma/client": "npm:^6.2.1"
     "@tanstack/react-table": "npm:^8.20.6"
@@ -4837,6 +4872,7 @@ __metadata:
     "@types/node": "npm:22.10.10"
     "@types/react": "npm:^19"
     "@types/react-dom": "npm:^19"
+    bad-words: "npm:^4.0.0"
     clsx: "npm:^2.1.1"
     daisyui: "npm:^4.12.23"
     eslint: "npm:^9.19.0"
@@ -4853,6 +4889,7 @@ __metadata:
     prisma: "npm:^6.2.1"
     react: "npm:^19.0.0"
     react-dom: "npm:^19.0.0"
+    react-hook-form: "npm:^7.54.2"
     server-only: "npm:^0.0.1"
     tailwindcss: "npm:^3.4.17"
     typescript: "npm:^5.7.3"

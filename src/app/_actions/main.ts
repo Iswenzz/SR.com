@@ -1,8 +1,11 @@
 "use server";
 
 import { GameDig } from "gamedig";
+import { Filter } from "bad-words";
 
 import { GameServer } from "@/schemas";
+
+const filter = new Filter();
 
 const parseServer = async (type: string, host: string, port: number): Promise<GameServer> => {
 	const { name, connect, map, maxplayers, players } = await GameDig.query({ type, host, port });
@@ -12,7 +15,7 @@ const parseServer = async (type: string, host: string, port: number): Promise<Ga
 		connect,
 		map,
 		maxplayers: `${maxplayers}`,
-		players: players.map(({ name, ping }) => ({ name, ping }))
+		players: players.map(({ name = "", ping }) => ({ name: filter.clean(name), ping }))
 	};
 };
 

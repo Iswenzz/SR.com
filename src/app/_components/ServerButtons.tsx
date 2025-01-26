@@ -7,12 +7,16 @@ import { GameServer } from "@/schemas";
 
 const ServerButtons: FC<Props> = ({ server }) => (
 	<>
-		<button className="btn btn-md btn-circle btn-ghost" title="Copy IP">
-			<Clipboard onClick={() => navigator.clipboard.writeText(server.connect)} />
-		</button>
-		<button className="btn btn-md btn-circle btn-ghost" title="Connect">
-			<Gamepad2 onClick={() => (window.location.href = `cod4://${server.connect}`)} />
-		</button>
+		<div className="tooltip tooltip-bottom" data-tip="Copy IP">
+			<button className="btn btn-md btn-circle btn-ghost">
+				<Clipboard onClick={() => navigator.clipboard.writeText(server.connect)} />
+			</button>
+		</div>
+		<div className="tooltip tooltip-bottom" data-tip="Connect">
+			<button className="btn btn-md btn-circle btn-ghost">
+				<Gamepad2 onClick={() => (window.location.href = `cod4://${server.connect}`)} />
+			</button>
+		</div>
 	</>
 );
 

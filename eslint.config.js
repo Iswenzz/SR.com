@@ -39,5 +39,10 @@ export default tseslint.config(
 			...pluginNext.configs.recommended.rules,
 			...pluginNext.configs["core-web-vitals"].rules
 		}
+	},
+	{
+		rules: {
+			"@typescript-eslint/no-explicit-any": "off"
+		}
 	}
 );
