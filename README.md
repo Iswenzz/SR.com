@@ -6,10 +6,10 @@ Welcome to SR.com, the official website of the Call of Duty 4 multiplayer speedr
 
 ## Features
 
-Leaderboards - View the fastest times achieved by players across different maps and categories.
-Personal Bests - Track your own progress and compare with other speedrunners.
-Server Status - Stay updated on the availability and current activity of speedrun servers.
-Demo Downloads - Access and download demo files of recorded runs to analyze or share with the community.
+- Leaderboards - View the fastest times achieved by players across different maps and categories.
+- Personal Bests - Track your own progress and compare with other speedrunners.
+- Server Status - Stay updated on the availability and current activity of speedrun servers.
+- Demo Downloads - Access and download demo files of recorded runs to analyze or share with the community.
 
 ## Building
 
