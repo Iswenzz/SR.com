@@ -10,9 +10,8 @@ const Server: FC<Props> = ({ name, server }) => (
 	<div className="grid grid-cols-8 bg-base-100/20 backdrop-blur-2xl rounded-box border-[3px] border-[#5C16C6] min-h-24 p-4 px-8 gap-4">
 		<div className="col-span-8 lg:col-span-2 flex items-center justify-start gap-4">
 			<span
-				className={clsx("size-4 rounded-full animate-pulse", {
-					"bg-[#5C16C6]": !!server,
-					"bg-error": !server
+				className={clsx("size-4 rounded-full bg-[#5C16C6] animate-pulse", {
+					"!bg-error": server.connect === "Unknown"
 				})}
 			/>
 			<h1 className="text-2xl font-bold tracking-wider">{name}</h1>

@@ -7,24 +7,40 @@ import { GameServer } from "@/schemas";
 
 const filter = new Filter();
 
-const parseServer = async (type: string, host: string, port: number): Promise<GameServer> => {
-	const { name, connect, map, maxplayers, players } = await GameDig.query({ type, host, port });
+const parseServer = async (
+	name: string,
+	type: string,
+	host: string,
+	port: number
+): Promise<GameServer> => {
+	try {
+		const {
+			name,
+			connect,
+			map,
+			maxplayers,
+			players = []
+		} = await GameDig.query({ type, host, port });
 
-	return {
-		name,
-		connect,
-		map,
-		maxplayers: `${maxplayers}`,
-		players: players.map(({ name = "", ping }) => ({ name: filter.clean(name), ping }))
-	};
+		return {
+			name,
+			connect,
+			map,
+			maxplayers: `${maxplayers}`,
+			players: players.map(({ name = "", ping }) => ({ name: filter.clean(name), ping }))
+		};
+	} catch (e) {
+		console.error(e);
+		return { name, connect: "Unknown", map: "Unknown", maxplayers: "24", players: [] };
+	}
 };
 
 export const queryServers = async (): Promise<GameServer[]> => {
 	try {
 		const servers = [];
-		servers.push(await parseServer("cod4mw", "iswenzz.com", 28960));
-		servers.push(await parseServer("cod4mw", "iswenzz.com", 28962));
-		servers.push(await parseServer("cod4mw", "iswenzz.com", 28964));
+		servers.push(await parseServer("SR Speedrun", "cod4mw", "iswenzz.com", 28960));
+		servers.push(await parseServer("SR Deathrun", "cod4mw", "iswenzz.com", 28962));
+		servers.push(await parseServer("SR BattleRoyale", "cod4mw", "iswenzz.com", 28964));
 		return servers;
 	} catch (e) {
 		console.error(e);
