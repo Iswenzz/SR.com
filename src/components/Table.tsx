@@ -58,7 +58,6 @@ const Table = <T,>({
 	const previousPage = () =>
 		setPagination({ ...pagination, pageIndex: pagination.pageIndex - 1 });
 	const nextPage = () => setPagination({ ...pagination, pageIndex: pagination.pageIndex + 1 });
-	const gotoPage = (pageIndex: number) => () => setPagination({ ...pagination, pageIndex });
 
 	return (
 		<div
@@ -158,17 +157,6 @@ const Table = <T,>({
 						>
 							<ChevronLeft />
 						</li>
-						{[...Array(pageCount)].map((_, index) => (
-							<li
-								key={index}
-								onClick={gotoPage(index)}
-								className={clsx("btn btn-xs", {
-									"opacity-80": pagination.pageIndex !== index
-								})}
-							>
-								{index + 1}
-							</li>
-						))}
 						<li
 							onClick={nextPage}
 							className={clsx(

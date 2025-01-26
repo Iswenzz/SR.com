@@ -8,7 +8,7 @@ const Leaderboards = () => {
 
 	return (
 		<section className="flex flex-col flex-auto items-center justify-center space-y-4 -mt-32">
-			<h1 className="text-6xl font-bold tracking-widest">{maps.length} MAPS</h1>
+			<h1 className="text-6xl font-bold tracking-widest gap-2">{maps.length} MAPS</h1>
 			<Search className="w-96" maps={maps} />
 		</section>
 	);

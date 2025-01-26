@@ -42,6 +42,7 @@ const Logo = () => (
 			alt="SR Speedrun"
 			width={34}
 			height={34}
+			priority
 		/>
 		SPEEDRUN
 	</Link>

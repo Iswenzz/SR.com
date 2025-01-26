@@ -1,9 +1,9 @@
 "use server";
 
+import { Leaderboard } from "@prisma/client";
 import { Filter } from "bad-words";
 
 import connectPrisma from "@/libs/prisma";
-import { Leaderboard } from "@prisma/client";
 
 const filter = new Filter();
 
@@ -17,7 +17,7 @@ export const getLeaderboard = async (
 		const modes = new Set();
 		const ways = new Set();
 		const entries = await prisma.leaderboard.findMany({
-			where: { map, mode, way },
+			where: { map, mode, way, tas: 0 },
 			orderBy: { time: "asc" },
 			take: 30
 		});

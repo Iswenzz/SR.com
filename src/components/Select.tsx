@@ -63,6 +63,7 @@ const Select = <Option,>({
 				className="group relative"
 				name={name}
 				value={(multiple ? values : value) as unknown}
+				virtual={{ options: filteredOptions }}
 				onChange={multiple ? handleChangeMultiple : handleChange}
 				onClose={() => setQuery("")}
 				multiple={multiple}
@@ -86,17 +87,16 @@ const Select = <Option,>({
 					anchor="bottom"
 					transition
 				>
-					{filteredOptions.map((option, i) => (
+					{({ option }) => (
 						<ComboboxOption
-							key={i}
-							className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-base-content/10"
+							className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-base-content/10 w-full"
 							value={option}
 							onClick={() => onClickOption?.(option)}
 						>
 							<Check className="invisible size-4 group-data-[selected]:visible" />
 							<span>{getLabel(option)}</span>
 						</ComboboxOption>
-					))}
+					)}
 				</ComboboxOptions>
 			</Combobox>
 			{form.formState.errors[name] && (

@@ -23,7 +23,7 @@ const connectPrisma = async () => {
 			global.prisma = prisma;
 		}
 	} catch (e) {
-		console.log(e);
+		console.error(e);
 		throw e;
 	}
 	return prisma;
