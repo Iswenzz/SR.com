@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://sr.iswenzz.com
+
+# Sitemaps
+Sitemap: https://sr.iswenzz.com/sitemap.xml
