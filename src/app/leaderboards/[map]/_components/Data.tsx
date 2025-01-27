@@ -21,29 +21,33 @@ const Data: FC<Props> = ({ map, maps, entries, mode, modes, way, ways }) => {
 	const form = useForm(schema);
 
 	return (
-		<section className="flex flex-auto flex-col space-y-8">
-			<div className="flex items-center justify-stretch bg-base-300/40 backdrop-blur-2xl rounded-box px-8 py-4 gap-4">
-				<Search className="w-full" maps={maps} map={map} />
-				<Select
-					className="w-full"
-					name="mode"
-					options={modes}
-					defaultValue={mode}
-					onClickOption={mode =>
-						router.push(`/leaderboards/${map}?mode=${mode}&way=${way}`)
-					}
-					form={form}
-				/>
-				<Select
-					className="w-full"
-					name="way"
-					options={ways}
-					defaultValue={way}
-					onClickOption={way =>
-						router.push(`/leaderboards/${map}?mode=${mode}&way=${way}`)
-					}
-					form={form}
-				/>
+		<section className="flex flex-auto flex-col space-y-8 w-full">
+			<div className="grid grid-cols-3 bg-base-300/40 backdrop-blur-2xl rounded-box p-4 gap-4">
+				<div className="col-span-3 lg:col-span-1">
+					<Search maps={maps} map={map} />
+				</div>
+				<div className="col-span-3 lg:col-span-1">
+					<Select
+						name="mode"
+						options={modes}
+						defaultValue={mode}
+						onClickOption={mode =>
+							router.push(`/leaderboards/${map}?mode=${mode}&way=${way}`)
+						}
+						form={form}
+					/>
+				</div>
+				<div className="col-span-3 lg:col-span-1">
+					<Select
+						name="way"
+						options={ways}
+						defaultValue={way}
+						onClickOption={way =>
+							router.push(`/leaderboards/${map}?mode=${mode}&way=${way}`)
+						}
+						form={form}
+					/>
+				</div>
 			</div>
 			<Table className="max-h-[75vh]" data={entries} columns={leaderboardColumns} />
 		</section>

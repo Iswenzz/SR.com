@@ -11,12 +11,14 @@ import { pbsColumns } from "./Columns";
 import Search from "../../_components/Search";
 
 const Data: FC<Props> = ({ type, name, player, players, entries, wrs, wrsModded }) => (
-	<section className="flex flex-auto flex-col space-y-8">
-		<div className="flex items-center bg-base-300/40 backdrop-blur-2xl rounded-box px-8 py-4 gap-12">
-			<Link className="btn btn-md btn-ghost" href={`/pbs/${player}`}>
-				<h1 className="text-xl font-bold tracking-wider">{name}</h1>
-			</Link>
-			<div className="flex items-center gap-2 tooltip tooltip-bottom" data-tip="World Record">
+	<section className="flex flex-auto flex-col space-y-8 w-full">
+		<div className="grid grid-cols-12 bg-base-300/40 backdrop-blur-2xl rounded-box p-4 gap-4">
+			<div className="col-span-12 lg:col-span-2">
+				<Link className="btn btn-md btn-ghost" href={`/pbs/${player}`}>
+					<h1 className="text-xl font-bold tracking-wider">{name}</h1>
+				</Link>
+			</div>
+			<div className="flex items-center justify-center col-span-12 lg:col-span-2 gap-2">
 				<Link className="btn btn-md btn-ghost" href={`/pbs/${player}?type=wrs`}>
 					<Image
 						src="/images/trophy_gold.png"
@@ -27,11 +29,6 @@ const Data: FC<Props> = ({ type, name, player, players, entries, wrs, wrsModded 
 					/>
 					<span className="font-bold">{wrs}</span>
 				</Link>
-			</div>
-			<div
-				className="flex items-center gap-2 tooltip tooltip-bottom"
-				data-tip="World Record Modded"
-			>
 				<Link className="btn btn-md btn-ghost" href={`/pbs/${player}?type=wrsModded`}>
 					<Image
 						src="/images/trophy_silver.png"
@@ -43,7 +40,9 @@ const Data: FC<Props> = ({ type, name, player, players, entries, wrs, wrsModded 
 					<span className="font-bold">{wrsModded}</span>
 				</Link>
 			</div>
-			<Search className="w-full" player={player} players={players} />
+			<div className="col-span-12 lg:col-span-8">
+				<Search player={player} players={players} />
+			</div>
 		</div>
 		<Table className="max-h-[75vh]" data={entries} columns={pbsColumns(type)} />
 	</section>

@@ -17,7 +17,6 @@ import {
 
 const Select = <Option,>({
 	className,
-	formClassName,
 	label,
 	name,
 	options = [],
@@ -50,7 +49,7 @@ const Select = <Option,>({
 	};
 
 	return (
-		<Field className={clsx(formClassName, "form-control space-y-2")}>
+		<Field className="form-control space-y-2 w-full">
 			{label && (
 				<Label htmlFor={name} className="flex items-center gap-2">
 					{Icon && <Icon size={20} />}
@@ -110,7 +109,6 @@ export type SelectProps<Option> = Omit<
 	SelectHTMLAttributes<HTMLSelectElement>,
 	"form" | "defaultValue"
 > & {
-	formClassName?: string;
 	label?: string;
 	name: string;
 	form: UseFormReturn<any>;

@@ -33,11 +33,11 @@ export const leaderboardColumns: ColumnDef<Leaderboard>[] = [
 		accessorKey: "time",
 		size: 150,
 		cell: ({ row }) => (
-			<div className="grid grid-cols-2 items-center gap-4">
+			<div className="grid grid-cols-2 items-center">
 				<span className="tracking-wider">{getTime(row.original.time)}</span>
 				{row.index === 0 && (
 					<Link
-						className="btn btn-md btn-circle btn-ghost"
+						className="btn btn-md btn-circle btn-ghost mx-4"
 						href={getDemoURL(row.original)}
 						target="_blank"
 					>

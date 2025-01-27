@@ -10,9 +10,9 @@ const PBS = () => {
 	const count = use(getCount());
 
 	return (
-		<section className="flex flex-col flex-auto items-center justify-center space-y-4 -mt-32">
-			<h1 className="text-6xl font-bold tracking-widest gap-2">{count} PBS</h1>
-			<Search className="w-96" players={players} />
+		<section className="mx-auto max-w-lg flex flex-col flex-auto items-center justify-center space-y-4 -mt-32">
+			<h1 className="text-6xl font-bold tracking-widest gap-2 text-center">{count} PBS</h1>
+			<Search players={players} />
 		</section>
 	);
 };

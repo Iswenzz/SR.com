@@ -95,7 +95,10 @@ const Table = <T,>({
 										)}
 										colSpan={header.colSpan}
 										onClick={header.column.getToggleSortingHandler()}
-										style={{ width: header.getSize() || "auto" }}
+										style={{
+											width: header.getSize() || "auto",
+											minWidth: header.getSize() || "auto"
+										}}
 									>
 										<div className="min-h-6 flex justify-between items-center">
 											{flexRender(

@@ -11,13 +11,12 @@ const schema = z.object({
 	player: z.string()
 });
 
-const Search: FC<Props> = ({ className, player, players }) => {
+const Search: FC<Props> = ({ player, players }) => {
 	const router = useRouter();
 	const form = useForm(schema);
 
 	return (
 		<Select
-			formClassName={className}
 			name="player"
 			options={players}
 			defaultValue={player}
@@ -28,7 +27,6 @@ const Search: FC<Props> = ({ className, player, players }) => {
 };
 
 type Props = {
-	className?: string;
 	player?: string;
 	players: string[];
 };
