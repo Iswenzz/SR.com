@@ -11,7 +11,7 @@ import { pbsColumns } from "./Columns";
 import Search from "../../_components/Search";
 
 const Data: FC<Props> = ({ type, name, player, players, entries, wrs, wrsModded }) => (
-	<section className="flex flex-auto flex-col space-y-8 w-full">
+	<section className="flex flex-col space-y-8 w-full">
 		<div className="grid grid-cols-12 bg-base-300/40 backdrop-blur-2xl rounded-box p-4 gap-4">
 			<div className="col-span-12 lg:col-span-2">
 				<Link className="btn btn-md btn-ghost" href={`/pbs/${player}`}>

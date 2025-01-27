@@ -21,9 +21,9 @@ const RootLayout: FC<PropsWithChildren> = ({ children }) => (
 		<body className={roboto.className}>
 			<Client>
 				<Navbar />
-				<main className="relative h-screen flex flex-col items-center p-8 pt-20">
+				<main className="relative min-h-screen flex flex-col items-center p-8 pt-20">
 					<div className="absolute size-1/2 rounded-full top-20 right-0 blur-[100px] bg-[conic-gradient(from_2.5rad,#5C16C6,#9E12CA)]" />
-					<div className="flex container mx-auto max-w-7xl size-full z-10">
+					<div className="flex flex-auto container mx-auto max-w-7xl size-full z-10">
 						{children}
 					</div>
 				</main>

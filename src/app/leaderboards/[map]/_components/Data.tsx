@@ -21,7 +21,7 @@ const Data: FC<Props> = ({ map, maps, entries, mode, modes, way, ways }) => {
 	const form = useForm(schema);
 
 	return (
-		<section className="flex flex-auto flex-col space-y-8 w-full">
+		<section className="flex flex-col space-y-8 w-full">
 			<div className="grid grid-cols-3 bg-base-300/40 backdrop-blur-2xl rounded-box p-4 gap-4">
 				<div className="col-span-3 lg:col-span-1">
 					<Search maps={maps} map={map} />

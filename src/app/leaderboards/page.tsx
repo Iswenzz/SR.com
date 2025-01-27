@@ -9,7 +9,7 @@ const Leaderboards = () => {
 	const maps = use(getMaps());
 
 	return (
-		<section className="mx-auto max-w-lg flex flex-col flex-auto items-center justify-center space-y-4 -mt-32">
+		<section className="mx-auto max-w-lg w-full flex flex-col items-center justify-center space-y-4 -mt-32">
 			<h1 className="text-6xl font-bold tracking-widest gap-2 text-center">
 				{maps.length} MAPS
 			</h1>
