@@ -19,26 +19,30 @@ const Data: FC<Props> = ({ type, name, player, players, entries, wrs, wrsModded 
 				</Link>
 			</div>
 			<div className="flex items-center justify-center col-span-12 lg:col-span-2 gap-2">
-				<Link className="btn btn-md btn-ghost" href={`/pbs/${player}?type=wrs`}>
-					<Image
-						src="/images/trophy_gold.png"
-						alt="World Record"
-						width={40}
-						height={40}
-						priority
-					/>
-					<span className="font-bold">{wrs}</span>
-				</Link>
-				<Link className="btn btn-md btn-ghost" href={`/pbs/${player}?type=wrsModded`}>
-					<Image
-						src="/images/trophy_silver.png"
-						alt="World Record Modded"
-						width={40}
-						height={40}
-						priority
-					/>
-					<span className="font-bold">{wrsModded}</span>
-				</Link>
+				<div className="flex tooltip tooltip-bottom" data-tip="World Record">
+					<Link className="btn btn-md btn-ghost" href={`/pbs/${player}?type=wrs`}>
+						<Image
+							src="/images/trophy_gold.png"
+							alt="World Record"
+							width={40}
+							height={40}
+							priority
+						/>
+						<span className="font-bold">{wrs}</span>
+					</Link>
+				</div>
+				<div className="flex tooltip tooltip-bottom" data-tip="World Record Modded">
+					<Link className="btn btn-md btn-ghost" href={`/pbs/${player}?type=wrsModded`}>
+						<Image
+							src="/images/trophy_silver.png"
+							alt="World Record Modded"
+							width={40}
+							height={40}
+							priority
+						/>
+						<span className="font-bold">{wrsModded}</span>
+					</Link>
+				</div>
 			</div>
 			<div className="col-span-12 lg:col-span-8">
 				<Search player={player} players={players} />
