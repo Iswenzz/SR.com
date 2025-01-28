@@ -6,8 +6,11 @@ import { GameServer } from "@/schemas";
 
 import ServerButtons from "./ServerButtons";
 
-const Server: FC<Props> = ({ name, server }) => (
-	<div className="grid grid-cols-8 bg-base-100/20 backdrop-blur-2xl rounded-box border-[3px] border-[#5C16C6] p-6 gap-4 w-full">
+const Server: FC<Props> = ({ name, server, z }) => (
+	<div
+		className="grid grid-cols-8 bg-base-100/20 backdrop-blur-2xl rounded-box border-[3px] border-[#5C16C6] p-6 gap-4 w-full"
+		style={{ zIndex: z }}
+	>
 		<div className="col-span-8 lg:col-span-2 flex items-center justify-start gap-4 size-full">
 			<span
 				className={clsx("size-4 rounded-full bg-[#5C16C6] animate-pulse", {
@@ -55,6 +58,7 @@ const Server: FC<Props> = ({ name, server }) => (
 type Props = {
 	name: string;
 	server: GameServer;
+	z: number;
 };
 
 export default Server;
