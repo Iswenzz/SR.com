@@ -1,13 +1,11 @@
-import { use } from "react";
-
 import Search from "./_components/Search";
 import { getCount, getPlayers } from "./_actions/main";
 
 export const revalidate = 3600;
 
-const PBS = () => {
-	const players = use(getPlayers());
-	const count = use(getCount());
+const PBS = async () => {
+	const players = await getPlayers();
+	const count = await getCount();
 
 	return (
 		<section className="mx-auto max-w-lg w-full flex flex-col items-center justify-center space-y-4 -mt-32">

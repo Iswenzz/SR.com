@@ -1,16 +1,14 @@
-import { FC, use } from "react";
-
 import Data from "./_components/Data";
 import { getEntries, getPlayers } from "../_actions/main";
 
 export const revalidate = 3600;
 
-const PBS: FC<Props> = ({ params, searchParams }) => {
-	const { player } = use(params);
-	const { type } = use(searchParams);
+const PBS = async ({ params, searchParams }: Props) => {
+	const { player } = await params;
+	const { type } = await searchParams;
 
-	const players = use(getPlayers());
-	const { entries, name, wrs, wrsModded } = use(getEntries(type, player));
+	const players = await getPlayers();
+	const { entries, name, wrs, wrsModded } = await getEntries(type, player);
 
 	return (
 		<Data

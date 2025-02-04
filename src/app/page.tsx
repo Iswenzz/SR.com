@@ -1,12 +1,10 @@
-import { use } from "react";
-
 import { queryServers } from "./_actions/main";
 import Server from "./_components/Server";
 
 export const revalidate = 10;
 
-const Home = () => {
-	const servers = use(queryServers());
+const Home = async () => {
+	const servers = await queryServers();
 
 	return (
 		<section className="mx-auto flex flex-col items-center justify-center space-y-8">

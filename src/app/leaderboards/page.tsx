@@ -1,12 +1,10 @@
-import { use } from "react";
-
 import Search from "./_components/Search";
 import { getMaps } from "./_actions/main";
 
 export const revalidate = 3600;
 
-const Leaderboards = () => {
-	const maps = use(getMaps());
+const Leaderboards = async () => {
+	const maps = await getMaps();
 
 	return (
 		<section className="mx-auto max-w-lg w-full flex flex-col items-center justify-center space-y-4 -mt-32">

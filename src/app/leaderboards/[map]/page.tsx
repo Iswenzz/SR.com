@@ -1,18 +1,16 @@
-import { FC, use } from "react";
-
 import Data from "./_components/Data";
 import { getLeaderboard, getMaps, getModes, getWays } from "../_actions/main";
 
 export const revalidate = 3600;
 
-const Leaderboards: FC<Props> = ({ params, searchParams }) => {
-	const { map = "mp_dr_lolz" } = use(params);
-	const { mode = "190", way = "normal_0" } = use(searchParams);
+const Leaderboards = async ({ params, searchParams }: Props) => {
+	const { map = "mp_dr_lolz" } = await params;
+	const { mode = "190", way = "normal_0" } = await searchParams;
 
-	const maps = use(getMaps());
-	const modes = use(getModes(map));
-	const ways = use(getWays(map));
-	const entries = use(getLeaderboard(map, mode, way));
+	const maps = await getMaps();
+	const modes = await getModes(map);
+	const ways = await getWays(map);
+	const entries = await getLeaderboard(map, mode, way);
 
 	return (
 		<Data
