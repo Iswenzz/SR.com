@@ -25,7 +25,9 @@ export const getEntries = async (type = "pbs", player = "0") => {
 		`;
 		const [entry = {} as Leaderboard] = pbs;
 		const wrs = pbsWrs.filter(wr => wr.mode === "190" || wr.mode === "210");
-		const wrsModded = pbsWrs.filter(wr => wr.mode === "Defrag" || wr.mode === "Portal");
+		const wrsModded = pbsWrs.filter(
+			wr => wr.mode === "Defrag" || wr.mode === "Portal" || wr.mode === "Bhop"
+		);
 		const entries = type === "wrs" ? wrs : type === "wrsModded" ? wrsModded : pbs;
 
 		return {
