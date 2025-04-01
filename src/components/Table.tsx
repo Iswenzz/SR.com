@@ -141,7 +141,7 @@ const Table = <T,>({
 					<p className="text-xl">No data</p>
 				</section>
 			)}
-			{pageSize > 0 && (
+			{pageCount > 0 && (
 				<footer className="w-full flex justify-between items-center gap-4 mt-auto px-1 pt-2">
 					<section className="mt-4 text-sm text-gray-500">
 						Page {pagination.pageIndex + 1} of {pageCount} - {data.length} elements

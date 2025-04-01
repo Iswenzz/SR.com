@@ -15,38 +15,56 @@ import {
 	Label
 } from "@headlessui/react";
 
+const defaultGetLabel = <Option,>(option: Option) =>
+	option && typeof option === "object" && "label" in option ? `${option.label}` : `${option}`;
+
+const defaultGetValue = <Option,>(option: Option) =>
+	option && typeof option === "object" && "value" in option ? option.value : option;
+
+const comparator = <Option,>(a: Option, b: Option) => {
+	if (a && b && typeof a === "object" && typeof b === "object") {
+		if ("id" in a && "id" in b) return a.id === b.id;
+		if ("value" in a && "value" in b) return a.value === b.value;
+	}
+	return a === b;
+};
+
 const Select = <Option,>({
 	className,
 	label,
 	name,
 	options = [],
-	defaultValue,
-	getLabel = option => `${option}`,
-	getValue = option => option,
+	getLabel = defaultGetLabel,
+	getValue = defaultGetValue,
 	onClickOption,
 	form,
+	defaultValue = [],
 	icon: Icon,
 	multiple,
 	required,
 	disabled
 }: SelectProps<Option>) => {
-	const [value, setValue] = useState<Nullable<Option>>((defaultValue as Option) || null);
-	const [values, setValues] = useState<Option[]>((defaultValue as Option[]) || []);
 	const [query, setQuery] = useState("");
+
+	const field = form.getFieldState(name);
+	const formValue = form.watch(name);
+
+	const value = multiple
+		? formValue
+			? options.filter(option =>
+					formValue.find((v: Option) => comparator(getValue(option), getValue(v)))
+				)
+			: defaultValue
+		: formValue
+			? options.find(option => comparator(getValue(option), getValue(formValue)))
+			: defaultValue;
 
 	const filteredOptions = !query
 		? options
 		: options.filter(option => getLabel(option).toLowerCase().includes(query.toLowerCase()));
 
-	const handleChange = (option: Option) => {
-		setValue(option);
-		form.setValue(name, getValue(option));
-	};
-
-	const handleChangeMultiple = (options: Option[]) => {
-		setValues(options);
-		form.setValue(name, options.map(getValue));
-	};
+	const handleChange = (option: Option) => form.setValue(name, getValue(option));
+	const handleChangeMultiple = (options: Option[]) => form.setValue(name, options.map(getValue));
 
 	return (
 		<Field className="form-control space-y-2 w-full">
@@ -61,7 +79,7 @@ const Select = <Option,>({
 				as="div"
 				className="group relative"
 				name={name}
-				value={(multiple ? values : value) as unknown}
+				value={value || defaultValue}
 				virtual={{ options: filteredOptions }}
 				onChange={multiple ? handleChangeMultiple : handleChange}
 				onClose={() => setQuery("")}
@@ -98,9 +116,7 @@ const Select = <Option,>({
 					)}
 				</ComboboxOptions>
 			</Combobox>
-			{form.formState.errors[name] && (
-				<p className="text-error">{form.formState.errors[name]?.message?.toString()}</p>
-			)}
+			{field.error && <p className="text-error">{field.error.message}</p>}
 		</Field>
 	);
 };
