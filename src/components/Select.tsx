@@ -38,9 +38,9 @@ const Select = <Option,>({
 	getValue = defaultGetValue,
 	onClickOption,
 	form,
-	defaultValue = [],
-	icon: Icon,
 	multiple,
+	defaultValue = multiple ? [] : null,
+	icon: Icon,
 	required,
 	disabled
 }: SelectProps<Option>) => {
@@ -92,7 +92,7 @@ const Select = <Option,>({
 						"flex items-center justify-between bg-base-300/20 input input-bordered w-full"
 					)}
 					displayValue={(data: any) =>
-						multiple ? data.map(getLabel).join(", ") : data && getLabel(data)
+						data ? (multiple ? data.map(getLabel).join(", ") : getLabel(data)) : ""
 					}
 					onChange={event => setQuery(event.target.value)}
 				/>
