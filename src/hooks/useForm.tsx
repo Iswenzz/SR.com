@@ -1,12 +1,17 @@
 "use client";
 
-import { useForm as useRHF, UseFormProps, UseFormReturn } from "react-hook-form";
+import { useForm as useRHF, UseFormProps, FieldValues, UseFormReturn } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z, ZodType } from "zod";
+import z from "zod/v4/core";
 
-const useForm = <T extends ZodType>(
+const useForm = <T extends z.$ZodType<FieldValues>>(
 	schema: T,
-	options?: UseFormProps<z.infer<T>>
-): UseFormReturn<z.infer<T>> => useRHF({ ...options, resolver: zodResolver(schema) });
+	options?: Omit<UseFormProps<z.infer<T>>, "resolver">
+): UseFormReturn<z.infer<T>> => {
+	return useRHF<z.infer<T>>({
+		resolver: zodResolver(schema as any),
+		...options
+	});
+};
 
 export default useForm;

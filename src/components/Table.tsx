@@ -34,6 +34,7 @@ const Table = <T,>({
 		return data.filter(row => search(row).toLowerCase().includes(searchValue.toLowerCase()));
 	};
 
+	// eslint-disable-next-line react-hooks/incompatible-library
 	const table = useReactTable({
 		columns,
 		data: getData(),

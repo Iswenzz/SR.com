@@ -81,7 +81,7 @@ const Select = <Option,>({
 				name={name}
 				value={value || defaultValue}
 				virtual={{ options: filteredOptions }}
-				onChange={multiple ? handleChangeMultiple : handleChange}
+				onChange={multiple ? handleChangeMultiple : (handleChange as any)}
 				onClose={() => setQuery("")}
 				multiple={multiple}
 				disabled={disabled}

@@ -1,6 +1,5 @@
 datasource db {
 	provider = "mysql"
-	url = env("PRISMA_URL")
 }
 
 generator client {
