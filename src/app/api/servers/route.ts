@@ -1,5 +1,4 @@
-"use server";
-
+import { NextResponse } from "next/server";
 import { GameDig } from "gamedig";
 import { Filter } from "bad-words";
 
@@ -35,15 +34,10 @@ const parseServer = async (
 	}
 };
 
-export const queryServers = async (): Promise<GameServer[]> => {
-	try {
-		const servers = [];
-		servers.push(await parseServer("SR Speedrun", "cod4mw", "iswenzz.com", 28960));
-		servers.push(await parseServer("SR Deathrun", "cod4mw", "iswenzz.com", 28962));
-		servers.push(await parseServer("SR BattleRoyale", "cod4mw", "iswenzz.com", 28964));
-		return servers;
-	} catch (e) {
-		console.error(e);
-		return [];
-	}
+export const GET = async () => {
+	const servers: GameServer[] = [];
+	servers.push(await parseServer("SR Speedrun", "cod4mw", "iswenzz.com", 28960));
+	servers.push(await parseServer("SR Deathrun", "cod4mw", "iswenzz.com", 28962));
+	servers.push(await parseServer("SR BattleRoyale", "cod4mw", "iswenzz.com", 28964));
+	return NextResponse.json(servers);
 };

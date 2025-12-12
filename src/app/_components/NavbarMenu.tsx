@@ -30,11 +30,11 @@ const NavbarMenu = () => (
 				{({ close }) => (
 					<Link
 						className="btn btn-ghost w-full"
-						href="/pbs"
-						aria-label="PBs"
+						href="/players"
+						aria-label="Players"
 						onClick={close}
 					>
-						PBS
+						Players
 					</Link>
 				)}
 			</MenuItem>

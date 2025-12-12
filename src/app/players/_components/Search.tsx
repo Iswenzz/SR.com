@@ -20,7 +20,7 @@ const Search: FC<Props> = ({ player, players }) => {
 			name="player"
 			options={players}
 			defaultValue={player}
-			onClickOption={player => router.push(`/pbs/${player}`)}
+			onClickOption={player => router.push(`/players/${player}`)}
 			form={form}
 		/>
 	);

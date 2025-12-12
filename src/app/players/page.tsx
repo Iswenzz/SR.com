@@ -4,17 +4,19 @@ import Search from "./_components/Search";
 
 export const revalidate = 3600;
 
-const Leaderboards = async () => {
-	const maps = await fetchJson<string[]>("/api/leaderboards", revalidate);
+const PBS = async () => {
+	const players = await fetchJson<string[]>("/api/players", revalidate);
+	const pbs = await fetchJson<number>("/api/players/pbs", revalidate);
 
 	return (
 		<section className="mx-auto max-w-lg w-full flex flex-col items-center justify-center space-y-4 -mt-32">
 			<h1 className="text-6xl font-bold tracking-widest gap-2 text-center">
-				{maps.length} MAPS
+				{players.length} PLAYERS
 			</h1>
-			<Search maps={maps} />
+			<h2 className="text-2xl font-bold tracking-widest gap-2 text-center">{pbs} PBS</h2>
+			<Search players={players} />
 		</section>
 	);
 };
 
-export default Leaderboards;
+export default PBS;

@@ -14,13 +14,13 @@ const Data: FC<Props> = ({ type, name, player, players, entries, wrs, wrsModded 
 	<section className="flex flex-col space-y-8 w-full">
 		<div className="grid grid-cols-12 bg-base-300/40 backdrop-blur-2xl rounded-box p-4 gap-4">
 			<div className="col-span-12 lg:col-span-2">
-				<Link className="btn btn-md btn-ghost" href={`/pbs/${player}`}>
+				<Link className="btn btn-md btn-ghost" href={`/players/${player}`}>
 					<h1 className="text-xl font-bold tracking-wider">{name}</h1>
 				</Link>
 			</div>
 			<div className="flex items-center justify-center col-span-12 lg:col-span-2 gap-2">
 				<div className="flex tooltip tooltip-bottom" data-tip="World Record">
-					<Link className="btn btn-md btn-ghost" href={`/pbs/${player}?type=wrs`}>
+					<Link className="btn btn-md btn-ghost" href={`/players/${player}?type=wrs`}>
 						<Image
 							src="/images/trophy_gold.png"
 							alt="World Record"
@@ -32,7 +32,10 @@ const Data: FC<Props> = ({ type, name, player, players, entries, wrs, wrsModded 
 					</Link>
 				</div>
 				<div className="flex tooltip tooltip-bottom" data-tip="World Record Modded">
-					<Link className="btn btn-md btn-ghost" href={`/pbs/${player}?type=wrsModded`}>
+					<Link
+						className="btn btn-md btn-ghost"
+						href={`/players/${player}?type=wrsModded`}
+					>
 						<Image
 							src="/images/trophy_silver.png"
 							alt="World Record Modded"

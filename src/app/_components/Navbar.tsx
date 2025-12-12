@@ -57,8 +57,12 @@ const Links = () => (
 		>
 			LEADERBOARDS
 		</Link>
-		<Link className="btn btn-ghost text-lg tracking-widest" href="/pbs" aria-label="PBs">
-			PBS
+		<Link
+			className="btn btn-ghost text-lg tracking-widest"
+			href="/players"
+			aria-label="Players"
+		>
+			PLAYERS
 		</Link>
 	</>
 );

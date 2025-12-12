@@ -1,14 +1,19 @@
+import { fetchJson } from "@/libs/api";
+import { PlayerEntries } from "@/schemas";
+
 import Data from "./_components/Data";
-import { getEntries, getPlayers } from "../_actions/main";
 
 export const revalidate = 3600;
 
-const PBS = async ({ params, searchParams }: Props) => {
+const Players = async ({ params, searchParams }: Props) => {
 	const { player } = await params;
 	const { type } = await searchParams;
 
-	const players = await getPlayers();
-	const { entries, name, wrs, wrsModded } = await getEntries(type, player);
+	const { entries, name, wrs, wrsModded } = await fetchJson<PlayerEntries>(
+		`/api/players/${player}?type=${type}`,
+		revalidate
+	);
+	const players = await fetchJson<string[]>(`/api/players`, revalidate);
 
 	return (
 		<Data
@@ -28,4 +33,4 @@ type Props = {
 	searchParams: Promise<{ type: string }>;
 };
 
-export default PBS;
+export default Players;

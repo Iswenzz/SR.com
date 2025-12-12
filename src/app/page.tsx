@@ -1,10 +1,10 @@
-import { queryServers } from "./_actions/main";
+import { fetchJson } from "@/libs/api";
+import { GameServer } from "@/schemas";
+
 import Server from "./_components/Server";
 
-export const revalidate = 10;
-
 const Home = async () => {
-	const servers = await queryServers();
+	const servers = await fetchJson<GameServer[]>("/api/servers");
 
 	return (
 		<section className="mx-auto flex flex-col items-center justify-center space-y-8">

@@ -23,7 +23,7 @@ export const leaderboardColumns: ColumnDef<Leaderboard>[] = [
 		header: "Name",
 		accessorKey: "name",
 		cell: ({ row }) => (
-			<Link className="link link-hover" href={`/pbs/${row.original.player}`}>
+			<Link className="link link-hover" href={`/players/${row.original.player}`}>
 				{row.original.name}
 			</Link>
 		)
