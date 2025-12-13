@@ -1,11 +1,11 @@
-import { fetchJson } from "@/libs/api";
+import { getMaps } from "@/libs/leaderboards";
 
 import Search from "./_components/Search";
 
 export const revalidate = 3600;
 
 const Leaderboards = async () => {
-	const maps = await fetchJson<string[]>("/api/leaderboards", revalidate);
+	const maps = await getMaps();
 
 	return (
 		<section className="mx-auto max-w-lg w-full flex flex-col items-center justify-center space-y-4 -mt-32">

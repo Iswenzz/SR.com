@@ -1,12 +1,12 @@
-import { fetchJson } from "@/libs/api";
+import { getPBs, getPlayers } from "@/libs/players";
 
 import Search from "./_components/Search";
 
 export const revalidate = 3600;
 
 const PBS = async () => {
-	const players = await fetchJson<string[]>("/api/players", revalidate);
-	const pbs = await fetchJson<number>("/api/players/pbs", revalidate);
+	const players = await getPlayers();
+	const pbs = await getPBs();
 
 	return (
 		<section className="mx-auto max-w-lg w-full flex flex-col items-center justify-center space-y-4 -mt-32">

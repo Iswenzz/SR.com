@@ -1,5 +1,4 @@
-import { fetchJson } from "@/libs/api";
-import { PlayerEntries } from "@/schemas";
+import { getEntries, getPlayers } from "@/libs/players";
 
 import Data from "./_components/Data";
 
@@ -9,11 +8,8 @@ const Players = async ({ params, searchParams }: Props) => {
 	const { player } = await params;
 	const { type } = await searchParams;
 
-	const { entries, name, wrs, wrsModded } = await fetchJson<PlayerEntries>(
-		`/api/players/${player}?type=${type}`,
-		revalidate
-	);
-	const players = await fetchJson<string[]>(`/api/players`, revalidate);
+	const { entries, name, wrs, wrsModded } = await getEntries(type, player);
+	const players = await getPlayers();
 
 	return (
 		<Data

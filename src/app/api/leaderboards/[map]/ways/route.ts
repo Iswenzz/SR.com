@@ -1,19 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import connectPrisma from "@/libs/prisma";
+import { getWays } from "@/libs/leaderboards";
 
 export const GET = async (request: NextRequest, { params }: Props) => {
 	const { map = "mp_dr_lolz" } = await params;
-
-	const prisma = await connectPrisma();
-	const entries = await prisma.leaderboard.findMany({
-		distinct: "way",
-		where: { map },
-		orderBy: { map: "asc" },
-		select: { way: true }
-	});
-	const ways = entries.map(entry => entry.way);
-	return NextResponse.json(ways);
+	return NextResponse.json(await getWays(map));
 };
 
 type Props = {

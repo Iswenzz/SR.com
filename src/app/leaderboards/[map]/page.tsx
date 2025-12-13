@@ -1,6 +1,4 @@
-import { Leaderboard } from "@prisma/client";
-
-import { fetchJson } from "@/libs/api";
+import { getLeaderboard, getMaps, getModes, getWays } from "@/libs/leaderboards";
 
 import Data from "./_components/Data";
 
@@ -10,16 +8,10 @@ const Leaderboards = async ({ params, searchParams }: Props) => {
 	const { map = "mp_dr_lolz" } = await params;
 	const { mode = "190", way = "normal_0" } = await searchParams;
 
-	const maps = await fetchJson<string[]>(`/api/leaderboards`, revalidate);
-	const entries = await fetchJson<Leaderboard[]>(
-		`/api/leaderboards/${map}?mode=${mode}&way=${way}`,
-		revalidate
-	);
-	const modes = await fetchJson<string[]>(
-		`/api/leaderboards/${map}/modes?map=${map}`,
-		revalidate
-	);
-	const ways = await fetchJson<string[]>(`/api/leaderboards/${map}/ways?map=${map}`, revalidate);
+	const maps = await getMaps();
+	const entries = await getLeaderboard(map, mode, way);
+	const modes = await getModes(map);
+	const ways = await getWays(map);
 
 	return (
 		<Data

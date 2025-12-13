@@ -1,10 +1,9 @@
-import { fetchJson } from "@/libs/api";
-import { GameServer } from "@/schemas";
+import { getServers } from "@/libs/servers";
 
 import Server from "./_components/Server";
 
 const Home = async () => {
-	const servers = await fetchJson<GameServer[]>("/api/servers");
+	const servers = await getServers();
 
 	return (
 		<section className="mx-auto flex flex-col items-center justify-center space-y-8">
