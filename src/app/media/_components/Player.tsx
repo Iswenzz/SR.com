@@ -43,6 +43,7 @@ const Player = () => {
 				playing={!paused}
 				width="100%"
 				height="100%"
+				controls
 				loop
 			/>
 		</section>,
