@@ -12,10 +12,12 @@ const Player = () => {
 
 	const [id, setId] = useState("");
 	const [paused, setPaused] = useState(false);
+	const [looped, setLooped] = useState(false);
 	const [isMounted, setIsMounted] = useState(false);
 
 	useSocket<State>("video", state => {
 		setId(state.id);
+		setLooped(state.looped);
 		if (ref.current && ref.current.currentTime !== ref.current.duration) {
 			const drift = Math.abs(ref.current.currentTime - state.time);
 			if (drift > 2) ref.current.currentTime = state.time;
@@ -43,8 +45,8 @@ const Player = () => {
 				playing={!paused}
 				width="100%"
 				height="100%"
+				loop={looped}
 				controls
-				loop
 			/>
 		</section>,
 		document.body
@@ -57,6 +59,7 @@ type State = {
 	index: number;
 	time: number;
 	paused: boolean;
+	looped: boolean;
 };
 
 export default Player;
