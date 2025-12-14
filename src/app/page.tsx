@@ -2,6 +2,8 @@ import { getServers } from "@/libs/servers";
 
 import Server from "./_components/Server";
 
+export const revalidate = 3;
+
 const Home = async () => {
 	const servers = await getServers();
 
