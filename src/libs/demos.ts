@@ -11,8 +11,8 @@ export const getDemo = async (player: string, map: string, run: string) => {
 	const demos = path.join(process.env.FASTDL as string, "demos");
 
 	if (fs.existsSync(path.join(wrs, player, map, run + ".dm_1")))
-		return `https://sr.iswenzz.com/static/fastdl/wrs/${player}/${map}/${run}.dm_1`;
+		return `https://iswenzz.com/static/fastdl/wrs/${player}/${map}/${run}.dm_1`;
 	if (fs.existsSync(path.join(demos, player, map, run + ".dm_1")))
-		return `https://sr.iswenzz.com/static/fastdl/demos/${player}/${map}/${run}.dm_1`;
+		return `https://iswenzz.com/static/fastdl/demos/${player}/${map}/${run}.dm_1`;
 	return undefined;
 };
