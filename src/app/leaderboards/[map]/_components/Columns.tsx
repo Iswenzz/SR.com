@@ -2,9 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { Leaderboard } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { Download } from "lucide-react";
 
-import { getDemoURL, getTime } from "@/utils";
+import { getTime } from "@/utils";
+import { Demo } from "@/components";
 
 const icons = ["/images/trophy_gold.png", "/images/trophy_silver.png", "/images/trophy_bronze.png"];
 
@@ -31,19 +31,11 @@ export const leaderboardColumns: ColumnDef<Leaderboard>[] = [
 	{
 		header: "Time",
 		accessorKey: "time",
-		size: 150,
+		size: 160,
 		cell: ({ row }) => (
 			<div className="grid grid-cols-2 items-center">
 				<span className="tracking-wider">{getTime(row.original.time)}</span>
-				{row.index === 0 && (
-					<Link
-						className="btn btn-md btn-circle btn-ghost mx-4"
-						href={getDemoURL(row.original)}
-						target="_blank"
-					>
-						<Download className="text-[#2baeff]" />
-					</Link>
-				)}
+				{row.index === 0 && <Demo entry={row.original} />}
 			</div>
 		)
 	}

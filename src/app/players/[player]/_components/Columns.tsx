@@ -1,10 +1,10 @@
 import { Leaderboard } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { Download } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
-import { getDemoURL, getTime } from "@/utils";
+import { getTime } from "@/utils";
+import { Demo } from "@/components";
 
 export const pbsColumns = (type?: string): ColumnDef<Leaderboard>[] => [
 	{
@@ -56,19 +56,11 @@ export const pbsColumns = (type?: string): ColumnDef<Leaderboard>[] => [
 	{
 		header: "Time",
 		accessorKey: "time",
-		size: 150,
+		size: 160,
 		cell: ({ row }) => (
 			<div className="grid grid-cols-2 items-center">
 				<span className="tracking-wider">{getTime(row.original.time)}</span>
-				{(type === "wrs" || type === "wrsModded") && (
-					<Link
-						className="btn btn-md btn-circle btn-ghost mx-4"
-						href={getDemoURL(row.original)}
-						target="_blank"
-					>
-						<Download className="text-[#2baeff]" />
-					</Link>
-				)}
+				{(type === "wrs" || type === "wrsModded") && <Demo entry={row.original} />}
 			</div>
 		)
 	}
