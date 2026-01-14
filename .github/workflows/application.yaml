@@ -34,4 +34,5 @@ jobs:
               run: |
                   corepack enable
                   yarn --no-immutable
+                  yarn prisma:generate
                   yarn lint
