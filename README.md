@@ -1,5 +1,9 @@
 # SR.com
 
+[![Checks](https://img.shields.io/github/check-runs/Iswenzz/SR.com/master?logo=github)](https://github.com/Iswenzz/SR.com/actions)
+[![CodeFactor](https://img.shields.io/codefactor/grade/github/Iswenzz/SR.com?label=codefactor&logo=codefactor)](https://www.codefactor.io/repository/github/iswenzz/SR.com)
+[![License](https://img.shields.io/github/license/Iswenzz/SR.com?color=blue&logo=gitbook&logoColor=white)](https://github.com/Iswenzz/SR.com/blob/master/LICENSE)
+
 ![](https://i.imgur.com/1iYxwMa.jpg)
 
 Welcome to SR.com, the official website of the Call of Duty 4 multiplayer speedrun mod. This website provides an all-in-one platform to track and showcase speedrunning achievements within the CoD4 community.
