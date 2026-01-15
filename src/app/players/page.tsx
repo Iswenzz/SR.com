@@ -1,8 +1,15 @@
 import { getPBs, getPlayers } from "@/libs/players";
+import { getSEO } from "@/libs/seo";
+import config from "@/config";
 
 import Search from "./_components/Search";
 
 export const revalidate = 3600;
+
+export const metadata = getSEO({
+	url: "/players",
+	title: `${config.title} - Players`
+});
 
 const PBS = async () => {
 	const players = await getPlayers();
