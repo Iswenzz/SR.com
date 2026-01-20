@@ -9,11 +9,14 @@ import { useSocket } from "@/hooks";
 
 const Player = () => {
 	const ref = useRef<HTMLVideoElement>(null);
+	const videoEndedRef = useRef(false);
+	const pendingSeekRef = useRef<number | null>(null);
 
 	const [id, setId] = useState("");
 	const [paused, setPaused] = useState(false);
 	const [looped, setLooped] = useState(false);
 	const [isMounted, setIsMounted] = useState(false);
+	const [playerKey, setPlayerKey] = useState(0);
 
 	useSocket<State>("video", state => {
 		setId(state.id);
@@ -27,8 +30,23 @@ const Player = () => {
 		setPaused(state.paused);
 	});
 	useSocket<State>("video-seek", state => {
-		if (ref.current) ref.current.currentTime = state.time;
+		if (videoEndedRef.current && !state.paused) {
+			pendingSeekRef.current = state.time;
+			setPlayerKey(k => k + 1);
+			videoEndedRef.current = false;
+		} else if (ref.current) {
+			ref.current.currentTime = state.time;
+		}
 	});
+	const handleEnded = () => {
+		videoEndedRef.current = true;
+	};
+	const handleReady = () => {
+		if (pendingSeekRef.current !== null && ref.current) {
+			ref.current.currentTime = pendingSeekRef.current;
+			pendingSeekRef.current = null;
+		}
+	};
 
 	useEffect(() => {
 		setIsMounted(true);
@@ -40,6 +58,7 @@ const Player = () => {
 	return createPortal(
 		<section className="absolute top-0 left-0 h-screen w-screen bg-black z-50">
 			<ReactPlayer
+				key={playerKey}
 				ref={ref}
 				src={`https://www.youtube.com/watch?v=${id}`}
 				playing={!paused}
@@ -47,6 +66,8 @@ const Player = () => {
 				height="100%"
 				loop={looped}
 				controls
+				onEnded={handleEnded}
+				onReady={handleReady}
 			/>
 		</section>,
 		document.body
@@ -60,6 +81,7 @@ type State = {
 	time: number;
 	paused: boolean;
 	looped: boolean;
+	mode: string;
 };
 
 export default Player;
