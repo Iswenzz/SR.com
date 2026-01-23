@@ -10,7 +10,7 @@ import { useSocket } from "@/hooks";
 const Player = () => {
 	const ref = useRef<HTMLVideoElement>(null);
 	const videoEndedRef = useRef(false);
-	const pendingSeekRef = useRef<number | null>(null);
+	const pendingSeekRef = useRef<Nullable<number>>(null);
 	const serverTimeRef = useRef<number>(0);
 	const serverTimestampRef = useRef<number>(0);
 
@@ -23,12 +23,18 @@ const Player = () => {
 	const getSeekTime = (time: number, isLooped: boolean, duration?: number) => {
 		return isLooped && duration ? time % duration : time;
 	};
+
 	const handleEnded = () => {
 		videoEndedRef.current = true;
 	};
+
 	const handleReady = () => {
 		if (pendingSeekRef.current !== null && ref.current) {
-			ref.current.currentTime = getSeekTime(pendingSeekRef.current, looped, ref.current.duration);
+			ref.current.currentTime = getSeekTime(
+				pendingSeekRef.current,
+				looped,
+				ref.current.duration
+			);
 			pendingSeekRef.current = null;
 		}
 	};
@@ -41,11 +47,13 @@ const Player = () => {
 		serverTimeRef.current = state.time;
 		serverTimestampRef.current = Date.now();
 	});
+
 	useSocket<State>("video-pause", state => {
 		setPaused(state.paused);
 		serverTimeRef.current = state.time;
 		serverTimestampRef.current = Date.now();
 	});
+
 	useSocket<State>("video-seek", state => {
 		serverTimeRef.current = state.time;
 		serverTimestampRef.current = Date.now();
