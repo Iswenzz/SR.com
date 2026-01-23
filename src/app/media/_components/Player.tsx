@@ -30,6 +30,12 @@ const Player = () => {
 
 	const handleReady = () => {
 		if (pendingSeekRef.current !== null && ref.current) {
+			if (!looped && pendingSeekRef.current >= ref.current.duration) {
+				ref.current.currentTime = ref.current.duration;
+				pendingSeekRef.current = null;
+				videoEndedRef.current = true;
+				return;
+			}
 			ref.current.currentTime = getSeekTime(
 				pendingSeekRef.current,
 				looped,
@@ -46,6 +52,7 @@ const Player = () => {
 		pendingSeekRef.current = state.time;
 		serverTimeRef.current = state.time;
 		serverTimestampRef.current = Date.now();
+		videoEndedRef.current = false;
 	});
 
 	useSocket<State>("video-pause", state => {
@@ -55,18 +62,24 @@ const Player = () => {
 	});
 
 	useSocket<State>("video-seek", state => {
+		if (!ref.current) return;
 		serverTimeRef.current = state.time;
 		serverTimestampRef.current = Date.now();
-		const seekTime = getSeekTime(state.time, state.looped, ref.current?.duration);
+		if (!state.looped && state.time >= ref.current.duration) {
+			ref.current.currentTime = ref.current.duration;
+			videoEndedRef.current = true;
+			return;
+		}
+		const seekTime = getSeekTime(state.time, state.looped, ref.current.duration);
 		if (videoEndedRef.current && !state.paused) {
 			videoEndedRef.current = false;
-			if (state.looped && ref.current?.duration) {
+			if (state.looped) {
 				ref.current.currentTime = seekTime;
 			} else {
 				pendingSeekRef.current = state.time;
 				setPlayerKey(k => k + 1);
 			}
-		} else if (ref.current) {
+		} else {
 			ref.current.currentTime = seekTime;
 		}
 	});
@@ -81,6 +94,7 @@ const Player = () => {
 			if (!ref.current) return;
 			const elapsed = (Date.now() - serverTimestampRef.current) / 1000;
 			const expectedTime = serverTimeRef.current + elapsed;
+			if (!looped && expectedTime >= ref.current.duration) return;
 			const expectedVideoTime = getSeekTime(expectedTime, looped, ref.current.duration);
 			const drift = Math.abs(ref.current.currentTime - expectedVideoTime);
 			if (drift > 2) ref.current.currentTime = expectedVideoTime;
