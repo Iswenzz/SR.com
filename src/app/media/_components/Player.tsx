@@ -9,30 +9,76 @@ import { useSocket } from "@/hooks";
 
 const Player = () => {
 	const ref = useRef<HTMLVideoElement>(null);
+	const videoEndedRef = useRef(false);
+	const pendingSeekRef = useRef<number | null>(null);
+	const serverTimeRef = useRef<number>(0);
+	const serverTimestampRef = useRef<number>(0);
 
 	const [id, setId] = useState("");
 	const [paused, setPaused] = useState(false);
 	const [looped, setLooped] = useState(false);
 	const [isMounted, setIsMounted] = useState(false);
+	const [playerKey, setPlayerKey] = useState(0);
+
+	const getSeekTime = (time: number, isLooped: boolean, duration?: number) => {
+		return isLooped && duration ? time % duration : time;
+	};
+	const handleEnded = () => {
+		videoEndedRef.current = true;
+	};
+	const handleReady = () => {
+		if (pendingSeekRef.current !== null && ref.current) {
+			ref.current.currentTime = getSeekTime(pendingSeekRef.current, looped, ref.current.duration);
+			pendingSeekRef.current = null;
+		}
+	};
 
 	useSocket<State>("video", state => {
 		setId(state.id);
 		setLooped(state.looped);
-		if (ref.current && ref.current.currentTime !== ref.current.duration) {
-			const drift = Math.abs(ref.current.currentTime - state.time);
-			if (drift > 2) ref.current.currentTime = state.time;
-		}
+		setPaused(state.paused);
+		pendingSeekRef.current = state.time;
+		serverTimeRef.current = state.time;
+		serverTimestampRef.current = Date.now();
 	});
 	useSocket<State>("video-pause", state => {
 		setPaused(state.paused);
+		serverTimeRef.current = state.time;
+		serverTimestampRef.current = Date.now();
 	});
 	useSocket<State>("video-seek", state => {
-		if (ref.current) ref.current.currentTime = state.time;
+		serverTimeRef.current = state.time;
+		serverTimestampRef.current = Date.now();
+		const seekTime = getSeekTime(state.time, state.looped, ref.current?.duration);
+		if (videoEndedRef.current && !state.paused) {
+			videoEndedRef.current = false;
+			if (state.looped && ref.current?.duration) {
+				ref.current.currentTime = seekTime;
+			} else {
+				pendingSeekRef.current = state.time;
+				setPlayerKey(k => k + 1);
+			}
+		} else if (ref.current) {
+			ref.current.currentTime = seekTime;
+		}
 	});
 
 	useEffect(() => {
 		setIsMounted(true);
 	}, []);
+
+	useEffect(() => {
+		if (paused || !id) return;
+		const intervalId = setInterval(() => {
+			if (!ref.current) return;
+			const elapsed = (Date.now() - serverTimestampRef.current) / 1000;
+			const expectedTime = serverTimeRef.current + elapsed;
+			const expectedVideoTime = getSeekTime(expectedTime, looped, ref.current.duration);
+			const drift = Math.abs(ref.current.currentTime - expectedVideoTime);
+			if (drift > 2) ref.current.currentTime = expectedVideoTime;
+		}, 5000);
+		return () => clearInterval(intervalId);
+	}, [paused, id, looped]);
 
 	if (!isMounted) {
 		return null;
@@ -40,6 +86,7 @@ const Player = () => {
 	return createPortal(
 		<section className="absolute top-0 left-0 h-screen w-screen bg-black z-50">
 			<ReactPlayer
+				key={playerKey}
 				ref={ref}
 				src={`https://www.youtube.com/watch?v=${id}`}
 				playing={!paused}
@@ -47,6 +94,8 @@ const Player = () => {
 				height="100%"
 				loop={looped}
 				controls
+				onEnded={handleEnded}
+				onReady={handleReady}
 			/>
 		</section>,
 		document.body
@@ -60,6 +109,7 @@ type State = {
 	time: number;
 	paused: boolean;
 	looped: boolean;
+	mode: string;
 };
 
 export default Player;
