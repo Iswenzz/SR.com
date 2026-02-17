@@ -14,6 +14,7 @@ const Player = () => {
 	const serverTimeRef = useRef<number>(0);
 	const serverTimestampRef = useRef<number>(0);
 
+	const [type, setType] = useState("");
 	const [id, setId] = useState("");
 	const [paused, setPaused] = useState(false);
 	const [looped, setLooped] = useState(false);
@@ -46,6 +47,10 @@ const Player = () => {
 	};
 
 	useSocket<State>("video", state => {
+		if (state.type === "telegram") {
+			setPlayerKey(k => k + 1);
+		}
+		setType(state.type);
 		setId(state.id);
 		setLooped(state.looped);
 		setPaused(state.paused);
@@ -105,12 +110,21 @@ const Player = () => {
 	if (!isMounted) {
 		return null;
 	}
+
+	const getSrc = () => {
+		if (type === "telegram") return `/api/telegram/stream?v=${playerKey}`;
+		if (type === "youtube") return `https://www.youtube.com/watch?v=${id}`;
+		return undefined;
+	};
+
+	const src = getSrc();
+
 	return createPortal(
 		<section className="absolute top-0 left-0 h-screen w-screen bg-black z-50">
 			<ReactPlayer
 				key={playerKey}
 				ref={ref}
-				src={`https://www.youtube.com/watch?v=${id}`}
+				src={src}
 				playing={!paused}
 				width="100%"
 				height="100%"
