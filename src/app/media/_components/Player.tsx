@@ -110,10 +110,14 @@ const Player = () => {
 	if (!isMounted) {
 		return null;
 	}
-	const src =
-		type === "telegram"
-			? `/api/stream?v=${playerKey}`
-			: `https://www.youtube.com/watch?v=${id}`;
+
+	const getSrc = () => {
+		if (type === "telegram") return `/api/telegram/stream?v=${playerKey}`;
+		if (type === "youtube") return `https://www.youtube.com/watch?v=${id}`;
+		return undefined;
+	};
+
+	const src = getSrc();
 
 	return createPortal(
 		<section className="absolute top-0 left-0 h-screen w-screen bg-black z-50">
