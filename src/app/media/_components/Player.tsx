@@ -47,9 +47,7 @@ const Player = () => {
 	};
 
 	useSocket<State>("video", state => {
-		if (state.type === "telegram") {
-			setPlayerKey(k => k + 1);
-		}
+		if (state.type === "telegram") setPlayerKey(k => k + 1);
 		setType(state.type);
 		setId(state.id);
 		setLooped(state.looped);
@@ -117,14 +115,12 @@ const Player = () => {
 		return undefined;
 	};
 
-	const src = getSrc();
-
 	return createPortal(
 		<section className="absolute top-0 left-0 h-screen w-screen bg-black z-50">
 			<ReactPlayer
 				key={playerKey}
 				ref={ref}
-				src={src}
+				src={getSrc()}
 				playing={!paused}
 				width="100%"
 				height="100%"

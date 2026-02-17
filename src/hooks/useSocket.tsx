@@ -7,7 +7,7 @@ let socket: Nullable<ReturnType<typeof io>> = null;
 
 const getSocket = () => {
 	if (!socket) {
-		socket = io(process.env.NEXT_PUBLIC_WS_URL, {
+		socket = io(process.env.NEXT_PUBLIC_MEDIASYNC_WS_URL, {
 			transports: ["websocket", "polling"]
 		});
 		socket.on("connect", () => {
