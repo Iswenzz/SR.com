@@ -67,3 +67,39 @@ export const getPBs = async (): Promise<number> => {
 		return 0;
 	}
 };
+
+export const getTopPlayers = async () => {
+	try {
+		const prisma = await connectPrisma();
+		const rows: {
+			player: string;
+			name: string;
+			wrs: number;
+			wrsModded: number;
+		}[] = await prisma.$queryRaw`
+				SELECT player,
+					MAX(name) AS name,
+					SUM(CASE WHEN mode IN ('190', '210') THEN 1 ELSE 0 END) AS wrs,
+					SUM(CASE WHEN mode IN ('Defrag', 'Portal', 'Bhop') THEN 1 ELSE 0 END) AS wrsModded
+				FROM (
+					SELECT player, name, map, mode, way, time, tas,
+					MIN(time) OVER (PARTITION BY map, mode, way, tas) AS minTime
+					FROM leaderboards
+				) b
+				WHERE time = minTime
+				AND tas = 0
+				GROUP BY player
+				HAVING wrs > 0 OR wrsModded > 0;
+			`;
+
+		return rows.map(r => ({
+			player: r.player,
+			name: r.name,
+			wrs: Number(r.wrs),
+			wrsModded: Number(r.wrsModded)
+		}));
+	} catch (e) {
+		console.error(e);
+		return [];
+	}
+};
