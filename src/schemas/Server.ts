@@ -18,5 +18,5 @@ export type PlayerEntries = {
 	name?: string;
 	pbs: number;
 	wrs: number;
-	wrsModded: number;
+	wrms: number;
 };

@@ -1,3 +1,7 @@
+import { Filter } from "bad-words";
+
+const filter = new Filter();
+
 export const getTime = (ms: number) => {
 	const min = Math.floor(ms / 60000);
 	ms %= 60000;
@@ -5,3 +9,5 @@ export const getTime = (ms: number) => {
 	ms %= 1000;
 	return `${min}:${sec}.${ms}`;
 };
+
+export const sanitize = (value = "") => filter.clean(value);

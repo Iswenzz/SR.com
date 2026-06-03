@@ -1,4 +1,4 @@
-import { getEntries, getPlayers } from "@/libs/players";
+import { getPlayerEntries, getPlayers } from "@/libs/players";
 
 import Data from "./_components/Data";
 
@@ -8,7 +8,7 @@ const Players = async ({ params, searchParams }: Props) => {
 	const { player } = await params;
 	const { type } = await searchParams;
 
-	const { entries, name, wrs, wrsModded } = await getEntries(type, player);
+	const { entries, name, wrs, wrms } = await getPlayerEntries(type, player);
 	const players = await getPlayers();
 
 	return (
@@ -19,7 +19,7 @@ const Players = async ({ params, searchParams }: Props) => {
 			players={players}
 			entries={entries}
 			wrs={wrs}
-			wrsModded={wrsModded}
+			wrms={wrms}
 		/>
 	);
 };

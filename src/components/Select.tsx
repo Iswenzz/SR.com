@@ -1,7 +1,6 @@
 "use client";
 
-import { SelectHTMLAttributes, useState } from "react";
-import { UseFormReturn } from "react-hook-form";
+import { useState } from "react";
 import { Asterisk, Check, ChevronDown, LucideIcon } from "lucide-react";
 import clsx from "clsx";
 
@@ -18,10 +17,10 @@ import {
 const defaultGetLabel = <Option,>(option: Option) =>
 	option && typeof option === "object" && "label" in option ? `${option.label}` : `${option}`;
 
-const defaultGetValue = <Option,>(option: Option) =>
+const defaultGetValue = <Option,>(option: Option): unknown =>
 	option && typeof option === "object" && "value" in option ? option.value : option;
 
-const comparator = <Option,>(a: Option, b: Option) => {
+const comparator = (a: unknown, b: unknown) => {
 	if (a && b && typeof a === "object" && typeof b === "object") {
 		if ("id" in a && "id" in b) return a.id === b.id;
 		if ("value" in a && "value" in b) return a.value === b.value;
@@ -29,45 +28,44 @@ const comparator = <Option,>(a: Option, b: Option) => {
 	return a === b;
 };
 
-const Select = <Option,>({
+const Select = <Option, Value = unknown>({
 	className,
+	comboClassName,
+	inputClassName,
 	label,
 	name,
 	options = [],
 	getLabel = defaultGetLabel,
 	getValue = defaultGetValue,
-	onClickOption,
-	form,
 	multiple,
-	defaultValue = multiple ? [] : null,
 	icon: Icon,
 	required,
-	disabled
-}: SelectProps<Option>) => {
+	disabled,
+	value,
+	onChange,
+	error
+}: SelectProps<Option, Value>) => {
 	const [query, setQuery] = useState("");
 
-	const field = form.getFieldState(name);
-	const formValue = form.watch(name);
-
-	const value = multiple
-		? formValue
-			? options.filter(option =>
-					formValue.find((v: Option) => comparator(getValue(option), getValue(v)))
-				)
-			: defaultValue
-		: formValue
-			? options.find(option => comparator(getValue(option), getValue(formValue)))
-			: defaultValue;
+	const selected: Option | Option[] | null = multiple
+		? Array.isArray(value)
+			? options.filter(option => value.some(v => comparator(getValue(option), v)))
+			: []
+		: value != null
+			? (options.find(option => comparator(getValue(option), value)) ?? null)
+			: null;
 
 	const filteredOptions = !query
 		? options
 		: options.filter(option => getLabel(option).toLowerCase().includes(query.toLowerCase()));
 
-	const handleChange = (option: Option) => form.setValue(name, getValue(option));
-	const handleChangeMultiple = (options: Option[]) => form.setValue(name, options.map(getValue));
+	const handleChange = (next: Option | Option[] | null) => {
+		if (multiple) onChange?.((Array.isArray(next) ? next : []).map(getValue) as Value[]);
+		else onChange?.((next ? getValue(next as Option) : null) as Value);
+	};
 
 	return (
-		<Field className="form-control space-y-2 w-full">
+		<Field className={clsx(className, "fieldset w-full")}>
 			{label && (
 				<Label htmlFor={name} className="flex items-center gap-2">
 					{Icon && <Icon size={20} />}
@@ -77,64 +75,70 @@ const Select = <Option,>({
 			)}
 			<Combobox
 				as="div"
-				className="group relative"
+				className={clsx(comboClassName, "group relative")}
 				name={name}
-				value={value || defaultValue}
+				value={selected as unknown}
 				virtual={{ options: filteredOptions }}
-				onChange={multiple ? handleChangeMultiple : (handleChange as any)}
+				onChange={(next: unknown) => handleChange(next as Option | Option[] | null)}
 				onClose={() => setQuery("")}
 				multiple={multiple}
 				disabled={disabled}
 			>
 				<ComboboxInput
 					className={clsx(
-						className,
+						inputClassName,
 						"flex items-center justify-between bg-base-300/20 input input-bordered w-full"
 					)}
-					displayValue={(data: any) =>
-						data ? (multiple ? data.map(getLabel).join(", ") : getLabel(data)) : ""
-					}
+					displayValue={(data: unknown) => {
+						const current = data as Option | Option[] | null;
+						return current
+							? Array.isArray(current)
+								? current.map(getLabel).join(", ")
+								: getLabel(current)
+							: "";
+					}}
 					onChange={event => setQuery(event.target.value)}
 				/>
 				<ComboboxButton className="absolute inset-y-0 right-0 px-2.5">
-					<ChevronDown className="size-5 duration-200 opacity-50 group-data-[open]:transform group-data-[open]:rotate-180" />
+					<ChevronDown className="size-5 duration-200 opacity-50 group-data-open:transform group-data-open:rotate-180" />
 				</ComboboxButton>
 				<ComboboxOptions
-					className="backdrop-blur-2xl bg-base-200/60 ring-1 ring-base-content/10 rounded-box p-1 focus:outline-none transition duration-100 ease-in data-[leave]:data-[closed]:opacity-0 w-[var(--input-width)] [--anchor-gap:var(--spacing-1)] z-40"
+					className="backdrop-blur-2xl bg-base-200/60 ring-1 ring-base-content/10 rounded-box p-1 focus:outline-none transition duration-100 ease-in data-leave:data-closed:opacity-0 w-(--input-width) [--anchor-gap:var(--spacing-1)] z-40"
 					anchor="bottom"
 					transition
 				>
-					{({ option }) => (
+					{({ option }: { option: Option }) => (
 						<ComboboxOption
-							className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-[focus]:bg-base-content/10 w-full"
+							className="group flex cursor-default items-center gap-2 rounded-lg py-1.5 px-3 select-none data-focus:bg-base-content/10 w-full"
 							value={option}
-							onClick={() => onClickOption?.(option)}
 						>
-							<Check className="invisible size-4 group-data-[selected]:visible" />
+							<Check className="invisible size-4 group-data-selected:visible" />
 							<span>{getLabel(option)}</span>
 						</ComboboxOption>
 					)}
 				</ComboboxOptions>
 			</Combobox>
-			{field.error && <p className="text-error">{field.error.message}</p>}
+			{error && <p className="text-error">{error}</p>}
 		</Field>
 	);
 };
 
-export type SelectProps<Option> = Omit<
-	SelectHTMLAttributes<HTMLSelectElement>,
-	"form" | "defaultValue"
-> & {
+export type SelectProps<Option, Value = unknown> = {
+	className?: string;
+	comboClassName?: string;
+	inputClassName?: string;
 	label?: string;
-	name: string;
-	form: UseFormReturn<any>;
+	name?: string;
 	options?: Option[];
-	defaultValue?: unknown;
-	getLabel?: (value: Option) => string;
-	getValue?: (value: Option) => unknown;
-	onClickOption?: (value: Option) => void;
+	getLabel?: (option: Option) => string;
+	getValue?: (option: Option) => unknown;
 	icon?: LucideIcon;
+	required?: boolean;
+	disabled?: boolean;
 	multiple?: boolean;
+	value?: Value | Value[] | null;
+	onChange?: (value: Value | Value[]) => void;
+	error?: string;
 };
 
 export default Select;

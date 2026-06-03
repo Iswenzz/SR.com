@@ -6,6 +6,17 @@ generator client {
 	provider = "prisma-client-js"
 }
 
+model Player {
+	id			Int			@id @default(autoincrement())
+	name		String		@db.VarChar(36)
+	player		String		@unique @db.VarChar(36)
+	role		String		@default("player") @db.VarChar(20)
+	vip			Int			@default(0)
+	tas			Int			@default(0)
+	date		DateTime	@default(dbgenerated("'2025-01-01 00:00:00'"))
+	@@map("players")
+}
+
 model Leaderboard {
 	id		Int		@id @default(autoincrement())
 	map		String	@db.VarChar(100)

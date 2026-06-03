@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export const topPlayersColumns: ColumnDef<TopPlayer>[] = [
 	{
-        accessorKey: "name",
+		accessorKey: "name",
 		header: "Player",
 		enableSorting: false,
 		cell: ({ row }) => (
@@ -19,8 +19,8 @@ export const topPlayersColumns: ColumnDef<TopPlayer>[] = [
 		accessorKey: "wrs",
 		size: 200,
 		header: () => (
-			<div className="flex items-center gap-2 normal-case text-base">
-				<span className="tooltip tooltip-bottom" data-tip="World Record">
+			<div className="tooltip tooltip-bottom normal-case" data-tip="World Record">
+				<div className="flex items-center gap-2 text-base">
 					<Image
 						src="/images/trophy_gold.png"
 						alt="World Record"
@@ -28,20 +28,18 @@ export const topPlayersColumns: ColumnDef<TopPlayer>[] = [
 						height={32}
 						priority
 					/>
-				</span>
-				<span>WR</span>
+					<span>WR</span>
+				</div>
 			</div>
 		),
-        cell: ({ row }) => (
-			<span className="inline-block w-8 text-center">{row.original.wrs}</span>
-		)
+		cell: ({ row }) => <span className="inline-block w-8 text-center">{row.original.wrs}</span>
 	},
 	{
-		accessorKey: "wrsModded",
+		accessorKey: "wrms",
 		size: 240,
 		header: () => (
-			<div className="flex items-center gap-2 normal-case text-base">
-				<span className="tooltip tooltip-bottom" data-tip="World Record Modded">
+			<div className="tooltip tooltip-bottom normal-case" data-tip="World Record Modded">
+				<div className="flex items-center gap-2 text-base">
 					<Image
 						src="/images/trophy_silver.png"
 						alt="World Record Modded"
@@ -49,19 +47,17 @@ export const topPlayersColumns: ColumnDef<TopPlayer>[] = [
 						height={32}
 						priority
 					/>
-				</span>
-				<span>WR Modded</span>
+					<span>WRM</span>
+				</div>
 			</div>
 		),
-        cell: ({ row }) => (
-			<span className="inline-block w-8 text-center">{row.original.wrsModded}</span>
-		)
+		cell: ({ row }) => <span className="inline-block w-8 text-center">{row.original.wrms}</span>
 	}
 ];
 
 type TopPlayer = {
-    player: string;
-    name: string;
-    wrs: number;
-    wrsModded: number;
+	player: string;
+	name: string;
+	wrs: number;
+	wrms: number;
 };

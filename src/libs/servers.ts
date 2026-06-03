@@ -1,11 +1,8 @@
 import "server-only";
 
 import { GameDig } from "gamedig";
-import { Filter } from "bad-words";
 
 import { GameServer } from "@/schemas";
-
-const filter = new Filter();
 
 const parseServer = async (
 	name: string,
@@ -27,7 +24,7 @@ const parseServer = async (
 			connect,
 			map,
 			maxplayers: `${maxplayers}`,
-			players: players.map(({ name = "", ping }) => ({ name: filter.clean(name), ping }))
+			players
 		};
 	} catch (e) {
 		console.error(e);

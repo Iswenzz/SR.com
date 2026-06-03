@@ -3,6 +3,7 @@ import { Map, Users } from "lucide-react";
 import clsx from "clsx";
 
 import { GameServer } from "@/schemas";
+import { sanitize } from "@/utils";
 
 import ServerButtons from "./ServerButtons";
 
@@ -24,7 +25,7 @@ const Server: FC<Props> = ({ name, server, z }) => (
 				className="tooltip tooltip-bottom before:whitespace-pre-wrap before:content-[attr(data-tip)]"
 				data-tip={
 					server.players.length
-						? server.players.map(player => player.name).join("\n")
+						? server.players.map(player => sanitize(player.name)).join("\n")
 						: "No players connected"
 				}
 			>

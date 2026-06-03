@@ -22,7 +22,7 @@ export const pbsColumns = (type?: string): ColumnDef<Leaderboard>[] => [
 							priority
 						/>
 					)}
-					{type === "wrsModded" && (
+					{type === "wrms" && (
 						<Image
 							src="/images/trophy_silver.png"
 							alt="Trophy"
@@ -60,7 +60,7 @@ export const pbsColumns = (type?: string): ColumnDef<Leaderboard>[] => [
 		cell: ({ row }) => (
 			<div className="grid grid-cols-2 items-center">
 				<span className="tracking-wider">{getTime(row.original.time)}</span>
-				{(type === "wrs" || type === "wrsModded") && <Demo entry={row.original} />}
+				{(type === "wrs" || type === "wrms") && <Demo entry={row.original} />}
 			</div>
 		)
 	}

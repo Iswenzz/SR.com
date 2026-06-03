@@ -11,22 +11,18 @@ const Top: FC<Props> = ({ topPlayers }) => {
 
 	return (
 		<div className="w-full max-w-5xl mx-auto">
-			<Table
-                className="max-h-[75vh]"
-                data={sorted}
-                columns={topPlayersColumns}
-            />
+			<Table className="max-h-[75vh]" data={sorted} columns={topPlayersColumns} />
 		</div>
 	);
 };
 
 type Props = {
 	topPlayers: {
-        player: string;
-        name: string;
-        wrs: number;
-        wrsModded: number;
-    }[];
+		player: string;
+		name: string;
+		wrs: number;
+		wrms: number;
+	}[];
 };
 
 export default Top;

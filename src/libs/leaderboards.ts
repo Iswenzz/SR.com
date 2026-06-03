@@ -1,11 +1,8 @@
 import "server-only";
 
 import { Leaderboard } from "@prisma/client";
-import { Filter } from "bad-words";
 
 import connectPrisma from "@/libs/prisma";
-
-const filter = new Filter();
 
 export const getLeaderboard = async (
 	map = "mp_dr_lolz",
@@ -18,12 +15,11 @@ export const getLeaderboard = async (
 		const ways = new Set();
 		const entries = await prisma.leaderboard.findMany({
 			where: { map, mode, way, tas: 0 },
-			orderBy: { time: "asc" },
-			take: 30
+			orderBy: { time: "asc" }
 		});
 		entries.forEach(entry => modes.add(entry.mode));
 		entries.forEach(entry => ways.add(entry.way));
-		return entries.map(entry => ({ ...entry, name: filter.clean(entry.name) }));
+		return entries;
 	} catch (e) {
 		console.error(e);
 		return [];
