@@ -4,7 +4,7 @@ import NavbarMenu from "./NavbarMenu";
 import Image from "next/image";
 
 const Navbar = () => (
-	<nav className="fixed z-30 navbar px-4 py-1 min-h-12 text-gray-300 bg-transparent">
+	<nav className="fixed z-30 navbar px-4 py-2 min-h-12 text-gray-300 bg-black/20 backdrop-blur-lg">
 		<NavbarDesktop />
 		<NavbarMobile />
 	</nav>
@@ -63,6 +63,20 @@ const Links = () => (
 			aria-label="Players"
 		>
 			PLAYERS
+		</Link>
+		<Link
+			className="btn btn-ghost text-lg tracking-widest"
+			href="/servers"
+			aria-label="Servers"
+		>
+			SERVERS
+		</Link>
+		<Link
+			className="btn text-lg tracking-widest bg-linear-to-br from-[#5c16c6] to-[#9e12ca] hover:opacity-90 transition-opacity"
+			href="/play"
+			aria-label="Play"
+		>
+			PLAY
 		</Link>
 	</>
 );

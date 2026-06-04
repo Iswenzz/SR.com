@@ -64,7 +64,7 @@ const Table = <T,>({
 		<div
 			className={clsx(
 				className,
-				"flex flex-col bg-base-300/40 rounded-box p-4 overflow-hidden"
+				"flex flex-col bg-black/20 backdrop-blur-lg rounded-box p-4 overflow-hidden"
 			)}
 		>
 			<header className="flex items-center justify-between">

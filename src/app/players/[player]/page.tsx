@@ -12,15 +12,17 @@ const Players = async ({ params, searchParams }: Props) => {
 	const players = await getPlayers();
 
 	return (
-		<Data
-			type={type}
-			name={name}
-			player={player}
-			players={players}
-			entries={entries}
-			wrs={wrs}
-			wrms={wrms}
-		/>
+		<section className="relative w-full min-h-screen flex flex-col max-w-7xl mx-auto px-8 pt-28 pb-20">
+			<Data
+				type={type}
+				name={name}
+				player={player}
+				players={players}
+				entries={entries}
+				wrs={wrs}
+				wrms={wrms}
+			/>
+		</section>
 	);
 };
 

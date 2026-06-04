@@ -4,40 +4,42 @@ import { Leaderboard, Player } from "@prisma/client";
 
 import connectPrisma from "@/libs/prisma";
 
+const MODES_MODDED = [
+	"Q3",
+	"Q3CPM",
+	"Q3CPMW",
+	"CS",
+	"Portal",
+	"LegacyBhop",
+	"LegacyDefrag",
+	"LegacyPortal"
+];
+
 export const getPlayerEntries = async (type = "pbs", player = "0") => {
 	try {
 		const prisma = await connectPrisma();
-		const pbs = await prisma.pB.findMany({
-			where: { player },
-			orderBy: { map: "asc" },
-			select: { name: true, map: true, mode: true, way: true, time: true }
-		});
-		const pbsWrs: Leaderboard[] = await prisma.$queryRaw`
-			SELECT b.map, b.player, p.name, b.mode, b.way, b.time, b.run
-			FROM (
-				SELECT player, map, mode, way, time, tas, run,
-					MIN(time) OVER (PARTITION BY map, mode, way, tas) AS minTime
-				FROM leaderboards
-			) b
-			JOIN players p ON p.player = b.player
-			WHERE b.time = b.minTime
-			AND b.player = ${player}
-			AND b.tas = 0;
-		`;
+		const [pbs, pbsWrs] = await Promise.all([
+			prisma.pB.findMany({
+				where: { player },
+				orderBy: { map: "asc" },
+				select: { name: true, map: true, mode: true, way: true, time: true }
+			}),
+			prisma.$queryRaw<Leaderboard[]>`
+				SELECT b.map, b.player, p.name, b.mode, b.way, b.time, b.run
+				FROM (
+					SELECT player, map, mode, way, time, tas, run,
+						MIN(time) OVER (PARTITION BY map, mode, way, tas) AS minTime
+					FROM leaderboards
+				) b
+				JOIN players p ON p.player = b.player
+				WHERE b.time = b.minTime
+				AND b.player = ${player}
+				AND b.tas = 0;
+			`
+		]);
 		const [entry = {} as Leaderboard] = pbs;
 		const wrs = pbsWrs.filter(wr => ["190", "210"].includes(wr.mode));
-		const wrms = pbsWrs.filter(wr =>
-			[
-				"Q3",
-				"Q3CPM",
-				"Q3CPMW",
-				"CS",
-				"Portal",
-				"LegacyBhop",
-				"LegacyDefrag",
-				"LegacyPortal"
-			].includes(wr.mode)
-		);
+		const wrms = pbsWrs.filter(wr => MODES_MODDED.includes(wr.mode));
 		const entries = type === "wrs" ? wrs : type === "wrms" ? wrms : pbs;
 
 		return {

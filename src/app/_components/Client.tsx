@@ -8,7 +8,7 @@ const queryClient = new QueryClient();
 
 const Client: FC<PropsWithChildren> = ({ children }) => (
 	<QueryClientProvider client={queryClient}>
-		<NextTopLoader color="#5C16C6" showSpinner={false} />
+		<NextTopLoader color="var(--color-primary)" showSpinner={false} />
 		{children}
 	</QueryClientProvider>
 );

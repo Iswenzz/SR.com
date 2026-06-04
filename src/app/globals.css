@@ -7,6 +7,17 @@
 @plugin "daisyui/theme" {
 	name: dark;
 	color-scheme: dark;
+	--color-primary: #5c16c6;
+	--color-secondary: #9e12ca;
+	--color-accent: #0affe7;
+	--color-success: #00a96e;
+	--color-warning: #ebbc01;
+	--color-error: #ff5861;
+	--color-neutral: #708090;
+	--color-base-100: #121212;
+	--color-base-200: #0f0f0f;
+	--color-base-300: #0c0c0c;
+	--color-base-content: #c9c9c9;
 	--radius-selector: 1.9rem;
 	--radius-field: 0.5rem;
 	--radius-box: 1rem;
@@ -19,4 +30,62 @@ body {
 
 progress::-webkit-progress-value {
 	@apply transition-[width] ease-out duration-700;
+}
+
+.glow-btn {
+	position: relative;
+	overflow: hidden;
+}
+
+.glow-btn::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(135deg, #5c16c6, #9e12ca);
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+.glow-btn:hover::before {
+	opacity: 1;
+}
+
+.glow-btn span {
+	position: relative;
+	z-index: 1;
+}
+
+@keyframes fadeUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.fade-up {
+	animation: fadeUp 0.6s ease forwards;
+}
+
+.fade-up-1 {
+	animation-delay: 0.1s;
+	opacity: 0;
+}
+
+.fade-up-2 {
+	animation-delay: 0.25s;
+	opacity: 0;
+}
+
+.fade-up-3 {
+	animation-delay: 0.4s;
+	opacity: 0;
+}
+
+.fade-up-4 {
+	animation-delay: 0.55s;
+	opacity: 0;
 }

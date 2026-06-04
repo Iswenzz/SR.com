@@ -35,9 +35,9 @@ const parseServer = async (
 export const getServers = async (): Promise<GameServer[]> => {
 	try {
 		const servers: GameServer[] = [];
-		servers.push(await parseServer("SR Speedrun", "cod4mw", "iswenzz.com", 28960));
-		servers.push(await parseServer("SR Deathrun", "cod4mw", "iswenzz.com", 28962));
-		servers.push(await parseServer("SR BattleRoyale", "cod4mw", "iswenzz.com", 28964));
+		servers.push(await parseServer("SR Speedrun", "cod4mw", "sr-speedrun.com", 28960));
+		servers.push(await parseServer("SR Deathrun", "cod4mw", "sr-speedrun.com", 28962));
+		servers.push(await parseServer("SR BattleRoyale", "cod4mw", "sr-speedrun.com", 28964));
 		return servers;
 	} catch (e) {
 		console.error(e);

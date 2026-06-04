@@ -14,15 +14,17 @@ const Leaderboards = async ({ params, searchParams }: Props) => {
 	const ways = await getWays(map);
 
 	return (
-		<Data
-			map={map}
-			maps={maps}
-			entries={entries}
-			mode={mode}
-			modes={modes}
-			way={way}
-			ways={ways}
-		/>
+		<section className="relative w-full min-h-screen flex flex-col max-w-7xl mx-auto px-8 pt-28 pb-20">
+			<Data
+				map={map}
+				maps={maps}
+				entries={entries}
+				mode={mode}
+				modes={modes}
+				way={way}
+				ways={ways}
+			/>
+		</section>
 	);
 };
 

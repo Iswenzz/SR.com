@@ -38,6 +38,30 @@ const NavbarMenu = () => (
 					</Link>
 				)}
 			</MenuItem>
+			<MenuItem>
+				{({ close }) => (
+					<Link
+						className="btn btn-ghost w-full"
+						href="/servers"
+						aria-label="Servers"
+						onClick={close}
+					>
+						Servers
+					</Link>
+				)}
+			</MenuItem>
+			<MenuItem>
+				{({ close }) => (
+					<Link
+						className="btn btn-ghost w-full"
+						href="/play"
+						aria-label="Play"
+						onClick={close}
+					>
+						Play
+					</Link>
+				)}
+			</MenuItem>
 		</MenuItems>
 	</Menu>
 );

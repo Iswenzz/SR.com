@@ -11,14 +11,31 @@ export const getLeaderboard = async (
 ): Promise<Leaderboard[]> => {
 	try {
 		const prisma = await connectPrisma();
-		const modes = new Set();
-		const ways = new Set();
-		const entries = await prisma.leaderboard.findMany({
+		return await prisma.leaderboard.findMany({
 			where: { map, mode, way, tas: 0 },
 			orderBy: { time: "asc" }
 		});
-		entries.forEach(entry => modes.add(entry.mode));
-		entries.forEach(entry => ways.add(entry.way));
+	} catch (e) {
+		console.error(e);
+		return [];
+	}
+};
+
+export const getRecentWorldRecords = async (): Promise<Leaderboard[]> => {
+	try {
+		const prisma = await connectPrisma();
+		const entries: Leaderboard[] = await prisma.$queryRaw`
+			SELECT l.map, l.player, l.name, l.mode, l.way, l.time, l.date
+			FROM (
+				SELECT map, player, name, mode, way, time, date, tas,
+					MIN(time) OVER (PARTITION BY map, mode, way, tas) AS minTime
+			 	FROM leaderboards
+			) l
+			WHERE l.time = l.minTime
+			AND l.tas = 0
+			ORDER BY l.date DESC
+			LIMIT 10;
+		`;
 		return entries;
 	} catch (e) {
 		console.error(e);
@@ -34,7 +51,7 @@ export const getMaps = async (): Promise<string[]> => {
 			orderBy: { map: "asc" },
 			select: { map: true }
 		});
-		return entries.map(entry => entry.map);
+		return entries.map(entry => entry.map).sort();
 	} catch (e) {
 		console.error(e);
 		return [];
@@ -50,7 +67,7 @@ export const getModes = async (map = "mp_dr_lolz"): Promise<string[]> => {
 			orderBy: { map: "asc" },
 			select: { mode: true }
 		});
-		return entries.map(entry => entry.mode);
+		return entries.map(entry => entry.mode).sort();
 	} catch (e) {
 		console.error(e);
 		return [];
@@ -66,7 +83,7 @@ export const getWays = async (map = "mp_dr_lolz"): Promise<string[]> => {
 			orderBy: { map: "asc" },
 			select: { way: true }
 		});
-		return entries.map(entry => entry.way);
+		return entries.map(entry => entry.way).sort();
 	} catch (e) {
 		console.error(e);
 		return [];

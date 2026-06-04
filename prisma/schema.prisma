@@ -18,26 +18,29 @@ model Player {
 }
 
 model Leaderboard {
-	id		Int		@id @default(autoincrement())
-	map		String	@db.VarChar(100)
-	player	String	@db.VarChar(36)
-	name	String	@db.VarChar(36)
-	mode	String	@db.VarChar(20)
-	way		String	@db.VarChar(20)
+	id		Int			@id @default(autoincrement())
+	map		String		@db.VarChar(100)
+	player	String		@db.VarChar(36)
+	name	String		@db.VarChar(36)
+	mode	String		@db.VarChar(20)
+	way		String		@db.VarChar(20)
 	time	Int
-	run		String	@db.VarChar(36)
-	tas		Int		@default(0)
+	run		String		@db.VarChar(36)
+	tas		Int			@default(0)
+	date	DateTime	@default(dbgenerated("'2025-01-01 00:00:00'"))
 	@@map("leaderboards")
+	@@index([map, mode, way, tas, time])
 }
 
 model PB {
-	id		Int		@id @default(autoincrement())
-	map		String	@db.VarChar(100)
-	player	String	@db.VarChar(36)
-	name	String	@db.VarChar(36)
-	mode	String	@db.VarChar(20)
-	way		String	@db.VarChar(20)
+	id		Int			@id @default(autoincrement())
+	map		String		@db.VarChar(100)
+	player	String		@db.VarChar(36)
+	name	String		@db.VarChar(36)
+	mode	String		@db.VarChar(20)
+	way		String		@db.VarChar(20)
 	time	Int
-	run		String	@db.VarChar(36)
+	run		String		@db.VarChar(36)
+	date	DateTime	@default(dbgenerated("'2025-01-01 00:00:00'"))
 	@@map("pbs")
 }
