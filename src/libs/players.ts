@@ -60,7 +60,7 @@ export const getPlayers = async (): Promise<Player[]> => {
 		const prisma = await connectPrisma();
 		const players = await prisma.player.findMany({
 			distinct: "player",
-			orderBy: { player: "asc" },
+			orderBy: { name: "asc" },
 			select: { name: true, player: true, role: true, date: true }
 		});
 		return players as Player[];

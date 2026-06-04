@@ -51,7 +51,7 @@ export const getMaps = async (): Promise<string[]> => {
 			orderBy: { map: "asc" },
 			select: { map: true }
 		});
-		return entries.map(entry => entry.map).sort();
+		return entries.map(entry => entry.map);
 	} catch (e) {
 		console.error(e);
 		return [];
@@ -64,10 +64,10 @@ export const getModes = async (map = "mp_dr_lolz"): Promise<string[]> => {
 		const entries = await prisma.leaderboard.findMany({
 			distinct: "mode",
 			where: { map },
-			orderBy: { map: "asc" },
+			orderBy: { mode: "asc" },
 			select: { mode: true }
 		});
-		return entries.map(entry => entry.mode).sort();
+		return entries.map(entry => entry.mode);
 	} catch (e) {
 		console.error(e);
 		return [];
@@ -80,10 +80,10 @@ export const getWays = async (map = "mp_dr_lolz"): Promise<string[]> => {
 		const entries = await prisma.leaderboard.findMany({
 			distinct: "way",
 			where: { map },
-			orderBy: { map: "asc" },
+			orderBy: { way: "asc" },
 			select: { way: true }
 		});
-		return entries.map(entry => entry.way).sort();
+		return entries.map(entry => entry.way);
 	} catch (e) {
 		console.error(e);
 		return [];
