@@ -58,7 +58,9 @@ const Play = () => (
 							IW3SR is a custom CoD4 client built specifically for SR. It delivers
 							smoother movement across all custom physics modes and includes a
 							built-in browser with video playback, letting you watch runs and
-							community videos without leaving the game.
+							community videos without leaving the game. In order to use this client,
+							download the archived file down below, and extract it to your cod4
+							directory.
 						</p>
 						<div className="grid grid-cols-1 gap-1.5 mb-5">
 							{IW3SR_FEATURES.map(f => (
