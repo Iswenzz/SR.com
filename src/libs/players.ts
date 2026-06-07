@@ -4,16 +4,7 @@ import { Leaderboard, Player } from "@prisma/client";
 
 import connectPrisma from "@/libs/prisma";
 
-const MODES_MODDED = [
-	"Q3",
-	"Q3CPM",
-	"Q3CPMW",
-	"CS",
-	"Portal",
-	"LegacyBhop",
-	"LegacyDefrag",
-	"LegacyPortal"
-];
+const MODES_MODDED = ["Q3", "Q3CPM", "Q3CPMW", "CS", "Portal"];
 
 export const getPlayerEntries = async (type = "pbs", player = "0") => {
 	try {
