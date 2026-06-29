@@ -13,20 +13,21 @@ let prisma: PrismaClient;
 let prismaAdapter: PrismaMariaDb;
 
 const connectPrisma = async () => {
-	if (!process.env.DATABASE_HOST) {
-		throw new Error("⚠️ DATABASE_HOST missing from .env");
+	if (!process.env.DATABASE_URL) {
+		throw new Error("⚠️ DATABASE_URL missing from .env");
 	}
 	if (prisma || global.prisma) {
 		return prisma || global.prisma;
 	}
 	try {
 		console.log("✅ Initializing Prisma");
+		const url = new URL(process.env.DATABASE_URL);
 		prismaAdapter = new PrismaMariaDb({
-			host: process.env.DATABASE_HOST,
-			port: parseInt(process.env.DATABASE_PORT as string),
-			user: process.env.DATABASE_USER,
-			password: process.env.DATABASE_PASSWORD,
-			database: process.env.DATABASE_DB,
+			host: url.hostname,
+			port: Number(url.port),
+			user: decodeURIComponent(url.username),
+			password: decodeURIComponent(url.password),
+			database: url.pathname.slice(1),
 			connectionLimit: 20
 		});
 		prisma = new PrismaClient({ adapter: prismaAdapter });
