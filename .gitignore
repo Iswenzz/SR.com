@@ -3,6 +3,7 @@
 .vscode/*
 .next/*
 .vercel/*
+src/generated/*
 node_modules/*
 coverage/*
 build/*

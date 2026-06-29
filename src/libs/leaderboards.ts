@@ -1,7 +1,6 @@
 import "server-only";
 
-import { Leaderboard } from "@prisma/client";
-
+import { Leaderboard } from "@/generated/prisma/client";
 import connectPrisma from "@/libs/prisma";
 
 export const getLeaderboard = async (

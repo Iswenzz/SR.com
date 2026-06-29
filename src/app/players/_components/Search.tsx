@@ -2,8 +2,8 @@
 
 import { FC } from "react";
 import { useRouter } from "next/navigation";
-import { Player } from "@prisma/client";
 
+import { Player } from "@/generated/prisma/client";
 import { Select } from "@/components";
 import { sanitize } from "@/utils";
 

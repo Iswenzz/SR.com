@@ -1,8 +1,8 @@
-import { Leaderboard } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import Image from "next/image";
 
+import { Leaderboard } from "@/generated/prisma/client";
 import { getTime } from "@/utils";
 import { Demo } from "@/components";
 

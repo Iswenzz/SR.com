@@ -1,10 +1,11 @@
 "use client";
 
 import { FC } from "react";
-import { Leaderboard } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { Download, FileX } from "lucide-react";
 import clsx from "clsx";
+
+import { Leaderboard } from "@/generated/prisma/client";
 
 const Demo: FC<Props> = ({ entry }) => {
 	const { mutate: download, isError } = useMutation({

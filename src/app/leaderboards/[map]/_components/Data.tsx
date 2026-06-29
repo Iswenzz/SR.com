@@ -2,8 +2,8 @@
 
 import { FC } from "react";
 import { useRouter } from "next/navigation";
-import { Leaderboard } from "@prisma/client";
 
+import { Leaderboard } from "@/generated/prisma/client";
 import { Select, Table } from "@/components";
 
 import { leaderboardColumns } from "./Columns";

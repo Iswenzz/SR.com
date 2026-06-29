@@ -3,8 +3,8 @@
 import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Leaderboard, Player } from "@prisma/client";
 
+import { Leaderboard, Player } from "@/generated/prisma/client";
 import { Table } from "@/components";
 
 import { pbsColumns } from "./Columns";

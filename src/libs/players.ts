@@ -1,7 +1,6 @@
 import "server-only";
 
-import { Leaderboard, Player } from "@prisma/client";
-
+import { Leaderboard, Player } from "@/generated/prisma/client";
 import connectPrisma from "@/libs/prisma";
 
 const MODES_MODDED = ["Q3", "Q3CPM", "Q3CPMW", "CS", "Portal"];

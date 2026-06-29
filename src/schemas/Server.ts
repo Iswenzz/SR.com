@@ -1,4 +1,4 @@
-import { Leaderboard } from "@prisma/client";
+import { Leaderboard } from "@/generated/prisma/client";
 
 export type GameServer = {
 	name: string;
