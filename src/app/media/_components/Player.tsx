@@ -18,6 +18,7 @@ const Player = () => {
 	const [id, setId] = useState("");
 	const [paused, setPaused] = useState(false);
 	const [looped, setLooped] = useState(false);
+	const [live, setLive] = useState(false);
 	const [isMounted, setIsMounted] = useState(false);
 	const [playerKey, setPlayerKey] = useState(0);
 
@@ -51,6 +52,7 @@ const Player = () => {
 		setType(state.type);
 		setId(state.id);
 		setLooped(state.looped);
+		setLive(state.live);
 		setPaused(state.paused);
 		pendingSeekRef.current = state.time;
 		serverTimeRef.current = state.time;
@@ -92,7 +94,7 @@ const Player = () => {
 	}, []);
 
 	useEffect(() => {
-		if (paused || !id) return;
+		if (paused || !id || live) return;
 		const intervalId = setInterval(() => {
 			if (!ref.current) return;
 			const elapsed = (Date.now() - serverTimestampRef.current) / 1000;
@@ -103,7 +105,7 @@ const Player = () => {
 			if (drift > 2) ref.current.currentTime = expectedVideoTime;
 		}, 5000);
 		return () => clearInterval(intervalId);
-	}, [paused, id, looped]);
+	}, [paused, id, looped, live]);
 
 	if (!isMounted) {
 		return null;
@@ -141,6 +143,7 @@ type State = {
 	time: number;
 	paused: boolean;
 	looped: boolean;
+	live: boolean;
 	mode: string;
 };
 
