@@ -21,7 +21,6 @@ const Player = ({ room }: Props) => {
 	const [live, setLive] = useState(false);
 	const [isMounted, setIsMounted] = useState(false);
 	const [playerKey, setPlayerKey] = useState(0);
-	const [invalidRoom, setInvalidRoom] = useState(false);
 
 	const getSeekTime = (time: number, isLooped: boolean, duration?: number) => {
 		return isLooped && duration ? time % duration : time;
@@ -48,12 +47,7 @@ const Player = ({ room }: Props) => {
 		}
 	};
 
-	useSocket<undefined>(room, "invalid-room", () => {
-		setInvalidRoom(true);
-	});
-
 	useSocket<State>(room, "video", state => {
-		setInvalidRoom(false);
 		if (state.type === "telegram") setPlayerKey(k => k + 1);
 		setType(state.type);
 		setId(state.id);
@@ -115,15 +109,6 @@ const Player = ({ room }: Props) => {
 
 	if (!isMounted) {
 		return null;
-	}
-
-	if (invalidRoom) {
-		return createPortal(
-			<section className="absolute top-0 left-0 flex h-screen w-screen items-center justify-center bg-black z-50">
-				<p className="text-lg text-white/60">Non-existent room.</p>
-			</section>,
-			document.body
-		);
 	}
 
 	const getSrc = () => {
