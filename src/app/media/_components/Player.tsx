@@ -7,7 +7,7 @@ import ReactPlayer from "react-player";
 
 import { useSocket } from "@/hooks";
 
-const Player = () => {
+const Player = ({ room }: Props) => {
 	const ref = useRef<HTMLVideoElement>(null);
 	const videoEndedRef = useRef(false);
 	const pendingSeekRef = useRef<Nullable<number>>(null);
@@ -47,7 +47,7 @@ const Player = () => {
 		}
 	};
 
-	useSocket<State>("video", state => {
+	useSocket<State>(room, "video", state => {
 		if (state.type === "telegram") setPlayerKey(k => k + 1);
 		setType(state.type);
 		setId(state.id);
@@ -60,13 +60,13 @@ const Player = () => {
 		videoEndedRef.current = false;
 	});
 
-	useSocket<State>("video-pause", state => {
+	useSocket<State>(room, "video-pause", state => {
 		setPaused(state.paused);
 		serverTimeRef.current = state.time;
 		serverTimestampRef.current = Date.now();
 	});
 
-	useSocket<State>("video-seek", state => {
+	useSocket<State>(room, "video-seek", state => {
 		if (!ref.current) return;
 		serverTimeRef.current = state.time;
 		serverTimestampRef.current = Date.now();
@@ -112,7 +112,7 @@ const Player = () => {
 	}
 
 	const getSrc = () => {
-		if (type === "telegram") return `/api/telegram/stream?v=${playerKey}`;
+		if (type === "telegram") return `/api/telegram/stream?room=${room}&v=${playerKey}`;
 		if (type === "youtube") return `https://www.youtube.com/watch?v=${id}`;
 		return undefined;
 	};
@@ -134,6 +134,10 @@ const Player = () => {
 		</section>,
 		document.body
 	);
+};
+
+type Props = {
+	room: string;
 };
 
 type State = {
