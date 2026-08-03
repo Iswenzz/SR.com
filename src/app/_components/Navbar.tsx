@@ -66,6 +66,13 @@ const Links = () => (
 		</Link>
 		<Link
 			className="btn btn-ghost text-lg tracking-widest"
+			href="/members"
+			aria-label="Members"
+		>
+			MEMBERS
+		</Link>
+		<Link
+			className="btn btn-ghost text-lg tracking-widest"
 			href="/servers"
 			aria-label="Servers"
 		>

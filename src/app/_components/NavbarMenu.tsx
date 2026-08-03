@@ -42,6 +42,18 @@ const NavbarMenu = () => (
 				{({ close }) => (
 					<Link
 						className="btn btn-ghost w-full"
+						href="/members"
+						aria-label="Members"
+						onClick={close}
+					>
+						Members
+					</Link>
+				)}
+			</MenuItem>
+			<MenuItem>
+				{({ close }) => (
+					<Link
+						className="btn btn-ghost w-full"
 						href="/servers"
 						aria-label="Servers"
 						onClick={close}

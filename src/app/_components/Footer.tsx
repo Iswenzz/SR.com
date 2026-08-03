@@ -63,6 +63,12 @@ const Footer = () => (
 						Players
 					</Link>
 					<Link
+						href="/members"
+						className="text-xs text-white/40 hover:text-white/50 transition-colors"
+					>
+						Members
+					</Link>
+					<Link
 						href="/servers"
 						className="text-xs text-white/40 hover:text-white/50 transition-colors"
 					>
