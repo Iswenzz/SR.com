@@ -1,6 +1,6 @@
 # SR.com
 
-![](https://i.imgur.com/apkMdCz.jpeg)
+![](https://i.imgur.com/LcNbHnp.jpeg)
 
 The official website of the Call of Duty 4 multiplayer speedrun mod, built as a central hub for everything.
 Every map has its own leaderboard broken down by movement style and ways. World record demos are available to download directly from the leaderboard, so you can study the best runs offline.
