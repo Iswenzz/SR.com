@@ -3,7 +3,6 @@ import Image from "next/image";
 
 import { getMaps, getRecentWorldRecords } from "@/libs/leaderboards";
 import { getSEO } from "@/libs/seo";
-import config from "@/config";
 import { getTime, sanitize } from "@/utils";
 
 import Search from "./_components/Search";
@@ -12,7 +11,7 @@ export const revalidate = 3600;
 
 export const metadata = getSEO({
 	url: "/leaderboards",
-	title: `${config.title} - Leaderboards`
+	title: "SR Speedrun - Leaderboards"
 });
 
 const Leaderboards = async () => {

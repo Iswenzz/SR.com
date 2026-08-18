@@ -17,7 +17,7 @@ export const getSEO = ({
 	// 160 characters
 	description: description || config.description,
 	keywords: keywords || config.keywords,
-	applicationName: title || config.title,
+	applicationName: config.title,
 	metadataBase: new URL(
 		process.env.NODE_ENV === "development" ? "http://localhost:3000/" : config.url
 	),
@@ -26,6 +26,7 @@ export const getSEO = ({
 		title: openGraph?.title || title || config.title,
 		description: openGraph?.description || description || config.description,
 		url: openGraph?.url || config.url,
+		siteName: config.title,
 		images: "/opengraph-image.jpg",
 		locale: "en_US",
 		type: "website"

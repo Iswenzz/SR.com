@@ -1,6 +1,5 @@
 import { getServers } from "@/libs/servers";
 import { getSEO } from "@/libs/seo";
-import config from "@/config";
 
 import Server from "../_components/Server";
 
@@ -8,7 +7,7 @@ export const revalidate = 3;
 
 export const metadata = getSEO({
 	url: "/servers",
-	title: `${config.title} - Servers`
+	title: "SR Speedrun - Servers"
 });
 
 const Home = async () => {

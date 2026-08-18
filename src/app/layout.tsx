@@ -14,12 +14,24 @@ export const viewport = getViewport();
 
 export const metadata = getSEO({
 	url: "/",
-	title: "Speedrun"
+	title: "SR Speedrun - CoD4 Competitive Speedrunning"
 });
+
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	name: config.title,
+	alternateName: "SR",
+	url: config.url
+};
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (
 	<html lang="en" data-theme={config.theme}>
 		<body className={syne.className}>
+			<script
+				type="application/ld+json"
+				dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+			/>
 			<Client>
 				<Navbar />
 				<main className="relative flex flex-col items-center">

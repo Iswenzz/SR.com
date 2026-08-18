@@ -43,8 +43,8 @@ const Home = async () => (
 				</div>
 				<h1 className="text-[clamp(3.5rem,9vw,7rem)] font-extrabold leading-[0.88] tracking-[-0.04em] mb-0">
 					<span className="block text-white/90">SR</span>
-					<span className="block text-transparent bg-clip-text bg-linear-to-br from-[#5c16c6] to-[#9e12ca]">
-						SPEEDRUN
+					<span className="block uppercase text-transparent bg-clip-text bg-linear-to-br from-[#5c16c6] to-[#9e12ca]">
+						Speedrun
 					</span>
 				</h1>
 			</div>

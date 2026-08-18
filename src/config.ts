@@ -1,5 +1,5 @@
 const config: Config = {
-	title: "Speedrun",
+	title: "SR Speedrun",
 	domain: "sr-speedrun.com",
 	url: "https://sr-speedrun.com",
 	theme: "dark",

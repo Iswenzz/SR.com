@@ -2,11 +2,10 @@ import { FC } from "react";
 import Link from "next/link";
 
 import { getSEO } from "@/libs/seo";
-import config from "@/config";
 
 export const metadata = getSEO({
 	url: "/play",
-	title: `${config.title} - Play`
+	title: "SR Speedrun - Play"
 });
 
 const IW3SR_FEATURES = [

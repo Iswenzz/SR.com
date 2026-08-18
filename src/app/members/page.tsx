@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import { getSEO } from "@/libs/seo";
-import config from "@/config";
 
 import members from "./members.json";
 
@@ -9,7 +8,7 @@ export const revalidate = 3600;
 
 export const metadata = getSEO({
 	url: "/members",
-	title: `${config.title} - Members`
+	title: "SR Speedrun - Members"
 });
 
 const Members = () => {
