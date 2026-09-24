@@ -8,23 +8,32 @@ import clsx from "clsx";
 import { Leaderboard } from "@/generated/prisma/client";
 
 const Demo: FC<Props> = ({ entry }) => {
-	const { mutate: download, isError } = useMutation({
+	const {
+		mutate: download,
+		isError,
+		isPending
+	} = useMutation({
 		mutationFn: async () => {
-			const response = await fetch(
-				`/api/demos?player=${entry.player}&map=${entry.map}&run=${entry.run}`
-			);
+			const params = new URLSearchParams({
+				player: entry.player,
+				map: entry.map,
+				run: entry.run
+			});
+			const response = await fetch(`/api/demos?${params}`);
 			if (!response.ok) throw new Error();
 			return response.json();
 		},
-		onSuccess: url => window.open(url, "_blank")
+		// window.open after an await is no longer a user gesture and gets popup-blocked.
+		onSuccess: url => window.location.assign(url)
 	});
 
 	return (
 		<div className="ml-4 tooltip tooltip-bottom" data-tip={isError ? "Missing" : "Download"}>
 			<button
 				className={clsx("btn btn-md btn-circle btn-ghost", {
-					"btn-disabled": isError
+					"btn-disabled": isError || isPending
 				})}
+				aria-label={isError ? "Demo missing" : "Download demo"}
 				onClick={() => download()}
 			>
 				{isError ? (

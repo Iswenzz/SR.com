@@ -39,7 +39,7 @@ const Members = () => {
 				</span>
 				<div className="flex-1 h-px bg-white/[0.05]" />
 			</div>
-			<ul className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-white/[0.05] border border-white/10 rounded-2xl overflow-hidden">
+			<ul className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-black/[0.05] border border-white/10 rounded-2xl overflow-hidden">
 				{entries.map(([name, player], i) => (
 					<li key={name}>
 						<Link

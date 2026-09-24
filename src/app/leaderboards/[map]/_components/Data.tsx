@@ -1,16 +1,31 @@
 "use client";
 
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { useRouter } from "next/navigation";
 
 import { Leaderboard } from "@/generated/prisma/client";
 import { Select, Table } from "@/components";
 
-import { leaderboardColumns } from "./Columns";
+import { leaderboardColumns, RankedEntry } from "./Columns";
 import Search from "../../_components/Search";
 
 const Data: FC<Props> = ({ map, maps, entries, mode, modes, way, ways }) => {
 	const router = useRouter();
+
+	// Entries arrive sorted by time; equal times share a rank.
+	const ranked = useMemo(
+		() =>
+			entries.reduce<RankedEntry[]>((acc, entry, i) => {
+				const previous = acc[i - 1];
+				const rank = previous?.time === entry.time ? previous.rank : i + 1;
+				acc.push({ ...entry, rank });
+				return acc;
+			}, []),
+		[entries]
+	);
+
+	const navigate = (mode: string, way: string) =>
+		router.push(`/leaderboards/${map}?${new URLSearchParams({ mode, way })}`);
 
 	return (
 		<section className="flex flex-col space-y-8 w-full">
@@ -23,9 +38,7 @@ const Data: FC<Props> = ({ map, maps, entries, mode, modes, way, ways }) => {
 						name="mode"
 						options={modes}
 						value={mode}
-						onChange={mode =>
-							router.push(`/leaderboards/${map}?mode=${mode}&way=${way}`)
-						}
+						onChange={mode => navigate(`${mode}`, way)}
 					/>
 				</div>
 				<div className="col-span-3 lg:col-span-1">
@@ -33,13 +46,16 @@ const Data: FC<Props> = ({ map, maps, entries, mode, modes, way, ways }) => {
 						name="way"
 						options={ways}
 						value={way}
-						onChange={way =>
-							router.push(`/leaderboards/${map}?mode=${mode}&way=${way}`)
-						}
+						onChange={way => navigate(mode, `${way}`)}
 					/>
 				</div>
 			</div>
-			<Table className="max-h-[75vh]" data={entries} columns={leaderboardColumns} />
+			<Table
+				className="max-h-[75vh]"
+				data={ranked}
+				columns={leaderboardColumns}
+				search={entry => entry.name}
+			/>
 		</section>
 	);
 };

@@ -61,7 +61,8 @@ const Select = <Option, Value = unknown>({
 
 	const handleChange = (next: Option | Option[] | null) => {
 		if (multiple) onChange?.((Array.isArray(next) ? next : []).map(getValue) as Value[]);
-		else onChange?.((next ? getValue(next as Option) : null) as Value);
+		// Headless UI selects null on Enter or blur with an empty input; keep the current value.
+		else if (next != null) onChange?.(getValue(next as Option) as Value);
 	};
 
 	return (

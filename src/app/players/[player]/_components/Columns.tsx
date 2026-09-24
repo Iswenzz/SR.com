@@ -3,42 +3,44 @@ import Link from "next/link";
 import Image from "next/image";
 
 import { Leaderboard } from "@/generated/prisma/client";
-import { getTime } from "@/utils";
+import { getDate, getTime } from "@/utils";
 import { Demo } from "@/components";
 
-export const pbsColumns = (type?: string): ColumnDef<Leaderboard>[] => [
+export const pbsColumns = (type: string): ColumnDef<Leaderboard>[] => [
 	{
 		id: "type",
 		size: 70,
-		cell: () =>
-			type && (
-				<>
-					{type === "wrs" && (
-						<Image
-							src="/images/trophy_gold.png"
-							alt="Trophy"
-							width={60}
-							height={60}
-							priority
-						/>
-					)}
-					{type === "wrms" && (
-						<Image
-							src="/images/trophy_silver.png"
-							alt="Trophy"
-							width={60}
-							height={60}
-							priority
-						/>
-					)}
-				</>
-			)
+		cell: () => (
+			<>
+				{type === "wrs" && (
+					<Image
+						src="/images/trophy_gold.png"
+						alt="Trophy"
+						width={60}
+						height={60}
+						priority
+					/>
+				)}
+				{type === "wrms" && (
+					<Image
+						src="/images/trophy_silver.png"
+						alt="Trophy"
+						width={60}
+						height={60}
+						priority
+					/>
+				)}
+			</>
+		)
 	},
 	{
 		header: "Map",
 		accessorKey: "map",
 		cell: ({ row }) => (
-			<Link className="link link-hover" href={`/leaderboards/${row.original.map}`}>
+			<Link
+				className="link link-hover"
+				href={`/leaderboards/${row.original.map}?mode=${row.original.mode}&way=${row.original.way}`}
+			>
 				{row.original.map}
 			</Link>
 		)
@@ -46,12 +48,20 @@ export const pbsColumns = (type?: string): ColumnDef<Leaderboard>[] => [
 	{
 		header: "Mode",
 		accessorKey: "mode",
-		size: 150
+		size: 100
 	},
 	{
 		header: "Way",
 		accessorKey: "way",
-		size: 150
+		size: 120,
+		meta: { className: "hidden sm:table-cell" }
+	},
+	{
+		header: "Date",
+		accessorKey: "date",
+		size: 120,
+		meta: { className: "hidden md:table-cell" },
+		cell: ({ row }) => <span className="text-white/50">{getDate(row.original.date)}</span>
 	},
 	{
 		header: "Time",

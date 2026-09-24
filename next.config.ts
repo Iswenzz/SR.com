@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
 };
 
 const withBundleAnalyzer = NextBundleAnalyzer({
-	enabled: process.env.NODE_ENV === "production"
+	enabled: process.env.ANALYZE === "true"
 });
 
 export default withBundleAnalyzer(nextConfig);

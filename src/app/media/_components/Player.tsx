@@ -112,7 +112,8 @@ const Player = ({ room }: Props) => {
 	}
 
 	const getSrc = () => {
-		if (type === "telegram") return `/api/telegram/stream?room=${room}&v=${playerKey}`;
+		if (type === "telegram")
+			return `/api/telegram/stream?room=${encodeURIComponent(room)}&v=${playerKey}`;
 		if (type === "youtube") return `https://www.youtube.com/watch?v=${id}`;
 		return undefined;
 	};

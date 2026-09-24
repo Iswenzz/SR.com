@@ -3,20 +3,31 @@ import Image from "next/image";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Leaderboard } from "@/generated/prisma/client";
-import { getTime } from "@/utils";
+import { getDate, getTime, sanitize } from "@/utils";
 import { Demo } from "@/components";
 
 const icons = ["/images/trophy_gold.png", "/images/trophy_silver.png", "/images/trophy_bronze.png"];
 
-export const leaderboardColumns: ColumnDef<Leaderboard>[] = [
+export type RankedEntry = Leaderboard & { rank: number };
+
+export const leaderboardColumns: ColumnDef<RankedEntry>[] = [
 	{
 		id: "placement",
+		accessorKey: "rank",
 		size: 70,
 		cell: ({ row }) =>
-			row.index <= 2 ? (
-				<Image src={icons[row.index]} alt="Trophy" width={60} height={60} priority />
+			row.original.rank <= 3 ? (
+				<Image
+					src={icons[row.original.rank - 1]}
+					alt={`Rank ${row.original.rank}`}
+					width={60}
+					height={60}
+					priority
+				/>
 			) : (
-				<span className="flex items-center justify-center font-bold">{row.index + 1}</span>
+				<span className="flex items-center justify-center font-bold">
+					{row.original.rank}
+				</span>
 			)
 	},
 	{
@@ -24,9 +35,16 @@ export const leaderboardColumns: ColumnDef<Leaderboard>[] = [
 		accessorKey: "name",
 		cell: ({ row }) => (
 			<Link className="link link-hover" href={`/players/${row.original.player}`}>
-				{row.original.name}
+				{sanitize(row.original.name)}
 			</Link>
 		)
+	},
+	{
+		header: "Date",
+		accessorKey: "date",
+		size: 120,
+		meta: { className: "hidden md:table-cell" },
+		cell: ({ row }) => <span className="text-white/50">{getDate(row.original.date)}</span>
 	},
 	{
 		header: "Time",
@@ -35,7 +53,7 @@ export const leaderboardColumns: ColumnDef<Leaderboard>[] = [
 		cell: ({ row }) => (
 			<div className="grid grid-cols-2 items-center">
 				<span className="tracking-wider">{getTime(row.original.time)}</span>
-				{row.index === 0 && <Demo entry={row.original} />}
+				{row.original.rank === 1 && <Demo entry={row.original} />}
 			</div>
 		)
 	}

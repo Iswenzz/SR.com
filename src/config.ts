@@ -3,6 +3,7 @@ const config: Config = {
 	domain: "sr-speedrun.com",
 	url: "https://sr-speedrun.com",
 	theme: "dark",
+	themeColor: "#0b0b0e",
 	description:
 		"The official CoD4 multiplayer speedrun mod. A complete speedrunning server experience including leaderboards, anti-cheats, character customization, with over 12,000 unique players and over 100,000 unique records set on the leaderboards.",
 	keywords: [
@@ -22,6 +23,7 @@ type Config = {
 	domain: string;
 	url: string;
 	theme: string;
+	themeColor: string;
 	description: string;
 	keywords: string[];
 };

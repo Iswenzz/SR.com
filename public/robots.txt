@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://sr-speedrun.com
-
-# Sitemaps
-Sitemap: https://sr-speedrun.com/sitemap.xml

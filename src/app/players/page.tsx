@@ -12,10 +12,12 @@ export const metadata = getSEO({
 });
 
 const Players = async () => {
-	const players = await getPlayers();
-	const playersCount = await getPlayersCount();
-	const pbs = await getPBCount();
-	const topPlayers = await getTopPlayers();
+	const [players, playersCount, pbs, topPlayers] = await Promise.all([
+		getPlayers(),
+		getPlayersCount(),
+		getPBCount(),
+		getTopPlayers()
+	]);
 
 	return (
 		<section className="relative w-full min-h-screen flex flex-col max-w-4xl mx-auto px-8 pt-28 pb-20">
@@ -45,7 +47,7 @@ const Players = async () => {
 				</div>
 			</div>
 			<div className="mb-10 max-w-sm">
-				<Search players={players} />
+				<Search players={players.map(({ name, player }) => ({ name, player }))} />
 			</div>
 			<div className="mb-4 flex items-center gap-3">
 				<span className="text-xs text-white/50 uppercase tracking-[0.2em] font-medium">

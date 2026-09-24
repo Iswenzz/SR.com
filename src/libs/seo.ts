@@ -36,7 +36,7 @@ export const getSEO = ({
 		title: openGraph?.title || title || config.title,
 		description: openGraph?.description || description || config.description,
 		card: "summary_large_image",
-		images: "/twittergraph-image.jpg",
+		images: "/twitter-image.jpg",
 		creator: "@AlexisNardiello"
 	},
 	alternates: {
@@ -46,7 +46,7 @@ export const getSEO = ({
 });
 
 export const getViewport = (): Viewport => ({
-	themeColor: config.theme,
+	themeColor: config.themeColor,
 	width: "device-width",
 	initialScale: 1,
 	maximumScale: 2

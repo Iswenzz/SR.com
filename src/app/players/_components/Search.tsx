@@ -22,9 +22,11 @@ const Search: FC<Props> = ({ player, players }) => {
 	);
 };
 
+export type SearchPlayer = Pick<Player, "name" | "player">;
+
 type Props = {
 	player?: string;
-	players: Player[];
+	players: SearchPlayer[];
 };
 
 export default Search;

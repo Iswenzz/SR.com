@@ -2,6 +2,8 @@ import { Leaderboard } from "@/generated/prisma/client";
 
 export type GameServer = {
 	name: string;
+	hostname: string;
+	online: boolean;
 	connect: string;
 	map: string;
 	maxplayers: string;

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { getServers } from "@/libs/servers";
+import { getMaps } from "@/libs/leaderboards";
 
 export const GET = async () => {
-	return NextResponse.json(await getServers());
+	return NextResponse.json(await getMaps());
 };

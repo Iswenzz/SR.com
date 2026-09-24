@@ -11,18 +11,18 @@ const Navbar = () => (
 );
 
 const NavbarDesktop = () => (
-	<div className="hidden md:flex mx-auto max-w-7xl w-full">
+	<div className="hidden lg:flex mx-auto max-w-7xl w-full">
 		<div className="flex navbar-start gap-4">
 			<Logo />
 		</div>
-		<div className="flex navbar-end gap-4">
+		<div className="flex navbar-end gap-1 xl:gap-4">
 			<Links />
 		</div>
 	</div>
 );
 
 const NavbarMobile = () => (
-	<div className="flex md:hidden w-full">
+	<div className="flex lg:hidden w-full">
 		<div className="flex navbar-start">
 			<NavbarMenu />
 			<Logo />
@@ -32,7 +32,7 @@ const NavbarMobile = () => (
 
 const Logo = () => (
 	<Link
-		className="btn btn-ghost text-xl font-extrabold tracking-widest"
+		className="btn btn-ghost text-lg xl:text-xl font-extrabold tracking-widest"
 		href="/"
 		aria-label="Home"
 	>
@@ -51,35 +51,35 @@ const Logo = () => (
 const Links = () => (
 	<>
 		<Link
-			className="btn btn-ghost text-lg tracking-widest"
+			className="btn btn-ghost text-base tracking-wider xl:tracking-widest"
 			href="/leaderboards"
 			aria-label="Leaderboards"
 		>
 			LEADERBOARDS
 		</Link>
 		<Link
-			className="btn btn-ghost text-lg tracking-widest"
+			className="btn btn-ghost text-base tracking-wider xl:tracking-widest"
 			href="/players"
 			aria-label="Players"
 		>
 			PLAYERS
 		</Link>
 		<Link
-			className="btn btn-ghost text-lg tracking-widest"
+			className="btn btn-ghost text-base tracking-wider xl:tracking-widest"
 			href="/members"
 			aria-label="Members"
 		>
 			MEMBERS
 		</Link>
 		<Link
-			className="btn btn-ghost text-lg tracking-widest"
+			className="btn btn-ghost text-base tracking-wider xl:tracking-widest"
 			href="/servers"
 			aria-label="Servers"
 		>
 			SERVERS
 		</Link>
 		<Link
-			className="btn text-lg tracking-widest bg-linear-to-br from-[#5c16c6] to-[#9e12ca] hover:opacity-90 transition-opacity"
+			className="btn text-base tracking-wider xl:tracking-widest bg-linear-to-br from-[#5c16c6] to-[#9e12ca] hover:opacity-90 transition-opacity"
 			href="/play"
 			aria-label="Play"
 		>

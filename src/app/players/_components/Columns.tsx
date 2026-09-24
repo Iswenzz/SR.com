@@ -4,14 +4,22 @@ import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import Image from "next/image";
 
+import { sanitize } from "@/utils";
+
 export const topPlayersColumns: ColumnDef<TopPlayer>[] = [
+	{
+		accessorKey: "rank",
+		header: "#",
+		size: 60,
+		cell: ({ row }) => <span className="font-bold text-white/50">{row.original.rank}</span>
+	},
 	{
 		accessorKey: "name",
 		header: "Player",
 		enableSorting: false,
 		cell: ({ row }) => (
 			<Link className="link link-hover font-bold" href={`/players/${row.original.player}`}>
-				{row.original.name}
+				{sanitize(row.original.name)}
 			</Link>
 		)
 	},
@@ -56,6 +64,7 @@ export const topPlayersColumns: ColumnDef<TopPlayer>[] = [
 ];
 
 type TopPlayer = {
+	rank: number;
 	player: string;
 	name: string;
 	wrs: number;

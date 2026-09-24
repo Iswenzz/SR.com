@@ -15,6 +15,17 @@ const IW3SR_FEATURES = [
 	"Tailored specifically for SR servers"
 ];
 
+const IW3SR_RUNTIMES = [
+	{
+		label: "Microsoft Visual C++ Redistributable (v14, x86)",
+		href: "https://aka.ms/vc14/vc_redist.x86.exe"
+	},
+	{
+		label: "DirectX End-User Runtime (June 2010)",
+		href: "https://www.microsoft.com/en-us/download/details.aspx?id=8109"
+	}
+];
+
 const Play = () => (
 	<section className="relative w-full min-h-screen flex flex-col max-w-4xl mx-auto px-8 pt-28 pb-20">
 		<div className="mb-10">
@@ -74,6 +85,25 @@ const Play = () => (
 						>
 							Download
 						</Link>
+						<div className="mt-5 pt-4 border-t border-purple-500/20">
+							<p className="text-white/50 mb-2">
+								The client requires the following runtimes to be installed.
+							</p>
+							<ul className="flex flex-col gap-1.5">
+								{IW3SR_RUNTIMES.map(runtime => (
+									<li key={runtime.href}>
+										<Link
+											href={runtime.href}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="text-purple-400 hover:text-purple-300 transition-colors"
+										>
+											{runtime.label} →
+										</Link>
+									</li>
+								))}
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>

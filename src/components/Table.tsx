@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactElement, useState } from "react";
+import { ReactElement, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight, Database, SortAsc, SortDesc } from "lucide-react";
 import clsx from "clsx";
 
@@ -13,11 +13,21 @@ import {
 	getSortedRowModel,
 	PaginationState,
 	SortingState,
+	RowData,
 	useReactTable
 } from "@tanstack/react-table";
 
+declare module "@tanstack/react-table" {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	interface ColumnMeta<TData extends RowData, TValue> {
+		className?: string;
+	}
+}
+
+const EMPTY: never[] = [];
+
 const Table = <T,>({
-	data = [],
+	data = EMPTY,
 	columns,
 	className,
 	search,
@@ -27,17 +37,30 @@ const Table = <T,>({
 }: Props<T>) => {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize });
-	const [searchValue, setSearch] = useState("");
+	const [searchValue, setSearchValue] = useState("");
+	const [previousData, setPreviousData] = useState(data);
 
-	const getData = () => {
-		if (!search) return data;
-		return data.filter(row => search(row).toLowerCase().includes(searchValue.toLowerCase()));
+	// New data (e.g. switching map or mode) starts back on the first page.
+	if (previousData !== data) {
+		setPreviousData(data);
+		setPagination({ ...pagination, pageIndex: 0 });
+	}
+
+	const filteredData = useMemo(() => {
+		const query = searchValue.trim().toLowerCase();
+		if (!search || !query) return data;
+		return data.filter(row => search(row).toLowerCase().includes(query));
+	}, [data, search, searchValue]);
+
+	const setSearch = (value: string) => {
+		setSearchValue(value);
+		setPagination({ ...pagination, pageIndex: 0 });
 	};
 
 	// eslint-disable-next-line react-hooks/incompatible-library
 	const table = useReactTable({
 		columns,
-		data: getData(),
+		data: filteredData,
 		defaultColumn: {
 			size: 0,
 			minSize: 0,
@@ -52,7 +75,7 @@ const Table = <T,>({
 		state: { sorting, pagination }
 	});
 
-	const pageCount = Math.ceil(data.length / pageSize);
+	const pageCount = Math.ceil(filteredData.length / pageSize);
 	const canPreviousPage = pagination.pageIndex > 0;
 	const canNextPage = pagination.pageIndex < pageCount - 1;
 
@@ -64,22 +87,23 @@ const Table = <T,>({
 		<div
 			className={clsx(
 				className,
-				"flex flex-col bg-black/20 backdrop-blur-lg rounded-box p-4 overflow-hidden"
+				"flex flex-col bg-black/20 backdrop-blur-lg rounded-box p-2 sm:p-4 overflow-hidden"
 			)}
 		>
 			<header className="flex items-center justify-between">
 				{search && (
 					<input
 						name="search"
-						className="input input-bordered w-72 sm:w-96"
+						className="input input-bordered w-full sm:w-96"
 						value={searchValue}
 						onChange={e => setSearch(e.target.value)}
 						placeholder="Search"
+						aria-label="Search"
 					/>
 				)}
 				{header}
 			</header>
-			<main className="overflow-auto max-h-[80vh] px-4">
+			<main className="overflow-auto max-h-[80vh] sm:px-4">
 				<table className="size-full table-auto divide-y divide-base-100">
 					<thead className="z-30">
 						{table.getHeaderGroups().map(headerGroup => (
@@ -88,7 +112,8 @@ const Table = <T,>({
 									<th
 										key={header.id}
 										className={clsx(
-											"px-4 py-3 text-left text-xs font-medium uppercase tracking-wider",
+											"px-2 sm:px-4 py-3 text-left text-xs font-medium uppercase tracking-wider",
+											header.column.columnDef.meta?.className,
 											{
 												["cursor-pointer select-none"]:
 													header.column.getCanSort()
@@ -126,7 +151,10 @@ const Table = <T,>({
 								{row.getVisibleCells().map(cell => (
 									<td
 										key={cell.id}
-										className="px-4 h-20 text-pretty text-ellipsis"
+										className={clsx(
+											"px-2 sm:px-4 h-20 text-pretty text-ellipsis",
+											cell.column.columnDef.meta?.className
+										)}
 									>
 										{flexRender(cell.column.columnDef.cell, cell.getContext())}
 									</td>
@@ -145,30 +173,33 @@ const Table = <T,>({
 			{pageCount > 0 && (
 				<footer className="w-full flex justify-between items-center gap-4 mt-auto px-1 pt-2">
 					<section className="mt-4 text-sm text-gray-500">
-						Page {pagination.pageIndex + 1} of {pageCount} - {data.length} elements
+						Page {pagination.pageIndex + 1} of {pageCount} - {filteredData.length}{" "}
+						elements
 					</section>
 					<ul
 						className="flex justify-center items-center gap-x-2"
 						role="navigation"
 						aria-label="pagination"
 					>
-						<li
-							onClick={previousPage}
-							className={clsx(
-								"btn btn-xs flex items-center justify-center cursor-pointer",
-								{ "pointer-events-none opacity-40": !canPreviousPage }
-							)}
-						>
-							<ChevronLeft />
+						<li>
+							<button
+								className="btn btn-xs flex items-center justify-center"
+								onClick={previousPage}
+								disabled={!canPreviousPage}
+								aria-label="Previous page"
+							>
+								<ChevronLeft />
+							</button>
 						</li>
-						<li
-							onClick={nextPage}
-							className={clsx(
-								"btn btn-xs flex items-center justify-center cursor-pointer",
-								{ "pointer-events-none opacity-40": !canNextPage }
-							)}
-						>
-							<ChevronRight />
+						<li>
+							<button
+								className="btn btn-xs flex items-center justify-center"
+								onClick={nextPage}
+								disabled={!canNextPage}
+								aria-label="Next page"
+							>
+								<ChevronRight />
+							</button>
 						</li>
 					</ul>
 				</footer>
