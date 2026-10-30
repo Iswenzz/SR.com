@@ -8,13 +8,6 @@ export const metadata = getSEO({
 	title: "SR Speedrun - Play"
 });
 
-const IW3SR_FEATURES = [
-	"Smoother movement across all custom physics modes",
-	"Built-in browser with video playback",
-	"Bunny script and CGAZ hud",
-	"Tailored specifically for SR servers"
-];
-
 const IW3SR_RUNTIMES = [
 	{
 		label: "Microsoft Visual C++ Redistributable (v14, x86)",
@@ -37,32 +30,14 @@ const Play = () => (
 				SR runs on the original CoD4 (version 1.7). You must own a legitimate copy of the
 				game to connect to SR servers.
 			</Step>
-			<Step number={2} title="Install CoD4x">
-				CoD4x is a required client patch that fixes base game bugs and extends server
-				functionality. When you first join a CoD4x server, it installs automatically — no
-				manual setup needed.{" "}
-				<Link
-					href="https://cod4x.ovh"
-					target="_blank"
-					rel="noopener noreferrer"
-					className="text-purple-400 hover:text-purple-300 transition-colors"
-				>
-					cod4x.ovh →
-				</Link>
-			</Step>
 			<div className="border border-purple-500/50 bg-purple-500/[0.06] rounded-2xl p-5">
 				<div className="flex items-start gap-4">
 					<div className="min-w-[32px] h-8 rounded-lg bg-purple-500/50 border border-purple-500/35 flex items-center justify-center font-bold text-purple-300">
-						3
+						2
 					</div>
 					<div className="flex-1">
-						<div className="flex items-center gap-3 mb-2 flex-wrap">
-							<span className="font-bold text-base">Install IW3SR</span>
-							<span className="px-2.5 py-0.5 rounded-full font-semibold bg-purple-500/20 border border-purple-500/50 text-purple-300">
-								Recommended
-							</span>
-						</div>
-						<p className="text-white/50 leading-relaxed mb-4">
+						<div className="font-bold text-base mb-2">Install IW3SR</div>
+						<p className="text-white/50 leading-relaxed mb-5">
 							IW3SR is a custom CoD4 client built specifically for SR. It delivers
 							smoother movement across all custom physics modes and includes a
 							built-in browser with video playback, letting you watch runs and
@@ -70,13 +45,6 @@ const Play = () => (
 							download the archived file down below, and extract it to your cod4
 							directory.
 						</p>
-						<div className="grid grid-cols-1 gap-1.5 mb-5">
-							{IW3SR_FEATURES.map(f => (
-								<div key={f} className="flex items-center gap-2 text-white/40">
-									<span className="text-purple-400">✓</span> {f}
-								</div>
-							))}
-						</div>
 						<Link
 							href="https://github.com/Iswenzz/IW3SR/releases/latest/download/IW3SR.zip"
 							target="_blank"
@@ -107,6 +75,18 @@ const Play = () => (
 					</div>
 				</div>
 			</div>
+			<Step number={3} title="Install CoD4x" badge="Optional">
+				CoD4x is a community client patch that fixes base game bugs. You can play with
+				IW3SR, CoD4x, or both at the same time.{" "}
+				<Link
+					href="https://cod4x.ovh"
+					target="_blank"
+					rel="noopener noreferrer"
+					className="text-purple-400 hover:text-purple-300 transition-colors"
+				>
+					cod4x.ovh →
+				</Link>
+			</Step>
 			<Step number={4} title="Join an SR server">
 				Find SR servers through the in-game server browser, or jump in directly from the
 				server page.{" "}
@@ -121,13 +101,20 @@ const Play = () => (
 	</section>
 );
 
-const Step: FC<StepProps> = ({ number, title, children }) => (
+const Step: FC<StepProps> = ({ number, title, badge, children }) => (
 	<div className="border border-white/[0.06] bg-white/[0.02] rounded-2xl p-5 flex items-start gap-4 hover:border-white/10 transition-colors">
 		<div className="min-w-[32px] h-8 rounded-lg bg-purple-500/15 border border-purple-500/50 flex items-center justify-center font-bold text-purple-400">
 			{number}
 		</div>
 		<div>
-			<div className="font-bold text-base mb-1.5">{title}</div>
+			<div className="flex items-center gap-3 mb-1.5 flex-wrap">
+				<span className="font-bold text-base">{title}</span>
+				{badge && (
+					<span className="px-2.5 py-0.5 rounded-full font-semibold bg-white/[0.04] border border-white/10 text-white/50">
+						{badge}
+					</span>
+				)}
+			</div>
 			<p className="text-white/45 leading-relaxed">{children}</p>
 		</div>
 	</div>
@@ -136,6 +123,7 @@ const Step: FC<StepProps> = ({ number, title, children }) => (
 type StepProps = {
 	number: number;
 	title: string;
+	badge?: string;
 	children: React.ReactNode;
 };
 
