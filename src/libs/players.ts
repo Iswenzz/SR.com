@@ -110,7 +110,7 @@ export const getTopPlayers = async () => {
 				wrs: Number(r.wrs),
 				epics: Number(r.epics)
 			}))
-			.sort((a, b) => b.wrs - a.wrs || b.epics - a.epics);
+			.sort((a, b) => b.epics - a.epics || b.wrs - a.wrs);
 	} catch (e) {
 		console.error(e);
 		return [];

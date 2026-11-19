@@ -24,27 +24,8 @@ export const topPlayersColumns: ColumnDef<TopPlayer>[] = [
 		)
 	},
 	{
-		accessorKey: "wrs",
-		size: 200,
-		header: () => (
-			<div className="tooltip tooltip-bottom normal-case" data-tip="World Record">
-				<div className="flex items-center gap-2 text-base">
-					<Image
-						src="/images/trophy_gold.png"
-						alt="World Record"
-						width={32}
-						height={32}
-						priority
-					/>
-					<span>WR</span>
-				</div>
-			</div>
-		),
-		cell: ({ row }) => <span className="inline-block w-8 text-center">{row.original.wrs}</span>
-	},
-	{
 		accessorKey: "epics",
-		size: 240,
+		size: 200,
 		header: () => (
 			<div className="tooltip tooltip-bottom normal-case" data-tip="Epic World Record">
 				<div className="flex items-center gap-2 text-base">
@@ -62,6 +43,25 @@ export const topPlayersColumns: ColumnDef<TopPlayer>[] = [
 		cell: ({ row }) => (
 			<span className="inline-block w-8 text-center">{row.original.epics}</span>
 		)
+	},
+	{
+		accessorKey: "wrs",
+		size: 240,
+		header: () => (
+			<div className="tooltip tooltip-bottom normal-case" data-tip="World Record">
+				<div className="flex items-center gap-2 text-base">
+					<Image
+						src="/images/trophy_gold.png"
+						alt="World Record"
+						width={32}
+						height={32}
+						priority
+					/>
+					<span>WR</span>
+				</div>
+			</div>
+		),
+		cell: ({ row }) => <span className="inline-block w-8 text-center">{row.original.wrs}</span>
 	}
 ];
 
