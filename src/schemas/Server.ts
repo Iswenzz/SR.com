@@ -15,10 +15,12 @@ export type Player = {
 	ping?: number;
 };
 
+export type PlayerEntry = Leaderboard & { epic?: boolean };
+
 export type PlayerEntries = {
-	entries: Leaderboard[];
+	entries: PlayerEntry[];
 	name?: string;
 	pbs: number;
 	wrs: number;
-	wrms: number;
+	epics: number;
 };

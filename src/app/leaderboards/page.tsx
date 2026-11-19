@@ -74,8 +74,12 @@ const Leaderboards = async () => {
 						>
 							<div className="flex items-center gap-4">
 								<Image
-									src="/images/trophy_gold.png"
-									alt="Trophy"
+									src={
+										entry.epic
+											? "/images/trophy_diamond.png"
+											: "/images/trophy_gold.png"
+									}
+									alt={entry.epic ? "Epic World Record" : "World Record"}
 									width={30}
 									height={30}
 									priority

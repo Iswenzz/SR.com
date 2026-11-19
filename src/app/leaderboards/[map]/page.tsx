@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { getLeaderboard, getMaps, getModes, getWays } from "@/libs/leaderboards";
+import { getLeaderboard, getMaps, getModes, getWays, isEpic } from "@/libs/leaderboards";
 import { getSEO } from "@/libs/seo";
 
 import Data from "./_components/Data";
@@ -20,11 +20,12 @@ const Leaderboards = async ({ params, searchParams }: Props) => {
 	const { map = "mp_dr_lolz" } = await params;
 	const { mode = "190", way = "normal_0" } = await searchParams;
 
-	const [maps, entries, modes, ways] = await Promise.all([
+	const [maps, entries, modes, ways, epic] = await Promise.all([
 		getMaps(),
 		getLeaderboard(map, mode, way),
 		getModes(map),
-		getWays(map)
+		getWays(map),
+		isEpic(map, mode, way)
 	]);
 	// An empty list means the database is unreachable, which should not look like a missing map.
 	if (maps.length && !maps.includes(map)) notFound();
@@ -39,6 +40,7 @@ const Leaderboards = async ({ params, searchParams }: Props) => {
 				modes={modes}
 				way={way}
 				ways={ways}
+				epic={epic}
 			/>
 		</section>
 	);

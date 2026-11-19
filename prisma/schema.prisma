@@ -33,6 +33,16 @@ model Leaderboard {
 	@@index([map, mode, way, tas, time])
 }
 
+model Epic {
+	id		Int			@id @default(autoincrement())
+	map		String		@db.VarChar(100)
+	mode	String		@db.VarChar(20)
+	way		String		@db.VarChar(20)
+	date	DateTime	@default(now())
+	@@map("epics")
+	@@unique([map, mode, way], map: "epics_map_mode_way_key")
+}
+
 model PB {
 	id		Int			@id @default(autoincrement())
 	map		String		@db.VarChar(100)

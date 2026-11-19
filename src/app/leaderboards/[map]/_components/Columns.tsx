@@ -7,10 +7,11 @@ import { getDate, getTime, sanitize } from "@/utils";
 import { Demo } from "@/components";
 
 const icons = ["/images/trophy_gold.png", "/images/trophy_silver.png", "/images/trophy_bronze.png"];
+const epicIcons = ["/images/trophy_diamond.png", ...icons.slice(1)];
 
 export type RankedEntry = Leaderboard & { rank: number };
 
-export const leaderboardColumns: ColumnDef<RankedEntry>[] = [
+export const leaderboardColumns = (epic: boolean): ColumnDef<RankedEntry>[] => [
 	{
 		id: "placement",
 		accessorKey: "rank",
@@ -18,7 +19,7 @@ export const leaderboardColumns: ColumnDef<RankedEntry>[] = [
 		cell: ({ row }) =>
 			row.original.rank <= 3 ? (
 				<Image
-					src={icons[row.original.rank - 1]}
+					src={(epic ? epicIcons : icons)[row.original.rank - 1]}
 					alt={`Rank ${row.original.rank}`}
 					width={60}
 					height={60}

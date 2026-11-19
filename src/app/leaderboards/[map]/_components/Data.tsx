@@ -9,7 +9,7 @@ import { Select, Table } from "@/components";
 import { leaderboardColumns, RankedEntry } from "./Columns";
 import Search from "../../_components/Search";
 
-const Data: FC<Props> = ({ map, maps, entries, mode, modes, way, ways }) => {
+const Data: FC<Props> = ({ map, maps, entries, mode, modes, way, ways, epic }) => {
 	const router = useRouter();
 
 	// Entries arrive sorted by time; equal times share a rank.
@@ -23,6 +23,7 @@ const Data: FC<Props> = ({ map, maps, entries, mode, modes, way, ways }) => {
 			}, []),
 		[entries]
 	);
+	const columns = useMemo(() => leaderboardColumns(epic), [epic]);
 
 	const navigate = (mode: string, way: string) =>
 		router.push(`/leaderboards/${map}?${new URLSearchParams({ mode, way })}`);
@@ -53,7 +54,7 @@ const Data: FC<Props> = ({ map, maps, entries, mode, modes, way, ways }) => {
 			<Table
 				className="max-h-[75vh]"
 				data={ranked}
-				columns={leaderboardColumns}
+				columns={columns}
 				search={entry => entry.name}
 			/>
 		</section>
@@ -68,6 +69,7 @@ type Props = {
 	modes: string[];
 	way: string;
 	ways: string[];
+	epic: boolean;
 };
 
 export default Data;

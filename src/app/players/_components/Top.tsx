@@ -29,7 +29,7 @@ type Props = {
 		player: string;
 		name: string;
 		wrs: number;
-		wrms: number;
+		epics: number;
 	}[];
 };
 

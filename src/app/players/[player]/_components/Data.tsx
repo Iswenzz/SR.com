@@ -6,15 +6,15 @@ import Link from "next/link";
 import { Timer } from "lucide-react";
 import clsx from "clsx";
 
-import { Leaderboard } from "@/generated/prisma/client";
 import { Table } from "@/components";
+import { PlayerEntry } from "@/schemas";
 import { sanitize } from "@/utils";
 
 import { pbsColumns } from "./Columns";
 import Search, { SearchPlayer } from "../../_components/Search";
 
-const Data: FC<Props> = ({ type, name, player, players, entries, pbs, wrs, wrms }) => {
-	const tab = type === "wrs" || type === "wrms" ? type : "pbs";
+const Data: FC<Props> = ({ type, name, player, players, entries, pbs, wrs, epics }) => {
+	const tab = type === "wrs" || type === "epics" ? type : "pbs";
 
 	return (
 		<section className="flex flex-col space-y-8 w-full">
@@ -53,21 +53,21 @@ const Data: FC<Props> = ({ type, name, player, players, entries, pbs, wrs, wrms 
 							<span className="font-bold">{wrs}</span>
 						</Link>
 					</div>
-					<div className="flex tooltip tooltip-bottom" data-tip="World Record Modded">
+					<div className="flex tooltip tooltip-bottom" data-tip="Epic World Record">
 						<Link
 							className={clsx("btn btn-md btn-ghost", {
-								"btn-active": tab === "wrms"
+								"btn-active": tab === "epics"
 							})}
-							href={`/players/${player}?type=wrms`}
+							href={`/players/${player}?type=epics`}
 						>
 							<Image
-								src="/images/trophy_silver.png"
-								alt="World Record Modded"
+								src="/images/trophy_diamond.png"
+								alt="Epic World Record"
 								width={40}
 								height={40}
 								priority
 							/>
-							<span className="font-bold">{wrms}</span>
+							<span className="font-bold">{epics}</span>
 						</Link>
 					</div>
 				</div>
@@ -90,10 +90,10 @@ type Props = {
 	name?: string;
 	player: string;
 	players: SearchPlayer[];
-	entries: Leaderboard[];
+	entries: PlayerEntry[];
 	pbs: number;
 	wrs: number;
-	wrms: number;
+	epics: number;
 };
 
 export default Data;

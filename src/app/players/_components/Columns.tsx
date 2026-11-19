@@ -43,23 +43,25 @@ export const topPlayersColumns: ColumnDef<TopPlayer>[] = [
 		cell: ({ row }) => <span className="inline-block w-8 text-center">{row.original.wrs}</span>
 	},
 	{
-		accessorKey: "wrms",
+		accessorKey: "epics",
 		size: 240,
 		header: () => (
-			<div className="tooltip tooltip-bottom normal-case" data-tip="World Record Modded">
+			<div className="tooltip tooltip-bottom normal-case" data-tip="Epic World Record">
 				<div className="flex items-center gap-2 text-base">
 					<Image
-						src="/images/trophy_silver.png"
-						alt="World Record Modded"
+						src="/images/trophy_diamond.png"
+						alt="Epic World Record"
 						width={32}
 						height={32}
 						priority
 					/>
-					<span>WRM</span>
+					<span>EWR</span>
 				</div>
 			</div>
 		),
-		cell: ({ row }) => <span className="inline-block w-8 text-center">{row.original.wrms}</span>
+		cell: ({ row }) => (
+			<span className="inline-block w-8 text-center">{row.original.epics}</span>
+		)
 	}
 ];
 
@@ -68,5 +70,5 @@ type TopPlayer = {
 	player: string;
 	name: string;
 	wrs: number;
-	wrms: number;
+	epics: number;
 };

@@ -2,36 +2,26 @@ import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import Image from "next/image";
 
-import { Leaderboard } from "@/generated/prisma/client";
+import { PlayerEntry } from "@/schemas";
 import { getDate, getTime } from "@/utils";
 import { Demo } from "@/components";
 
-export const pbsColumns = (type: string): ColumnDef<Leaderboard>[] => [
+export const pbsColumns = (type: string): ColumnDef<PlayerEntry>[] => [
 	{
 		id: "type",
 		size: 70,
-		cell: () => (
-			<>
-				{type === "wrs" && (
-					<Image
-						src="/images/trophy_gold.png"
-						alt="Trophy"
-						width={60}
-						height={60}
-						priority
-					/>
-				)}
-				{type === "wrms" && (
-					<Image
-						src="/images/trophy_silver.png"
-						alt="Trophy"
-						width={60}
-						height={60}
-						priority
-					/>
-				)}
-			</>
-		)
+		cell: ({ row }) =>
+			(type === "wrs" || type === "epics") && (
+				<Image
+					src={
+						row.original.epic ? "/images/trophy_diamond.png" : "/images/trophy_gold.png"
+					}
+					alt={row.original.epic ? "Epic World Record" : "World Record"}
+					width={60}
+					height={60}
+					priority
+				/>
+			)
 	},
 	{
 		header: "Map",
@@ -70,7 +60,7 @@ export const pbsColumns = (type: string): ColumnDef<Leaderboard>[] => [
 		cell: ({ row }) => (
 			<div className="grid grid-cols-2 items-center">
 				<span className="tracking-wider">{getTime(row.original.time)}</span>
-				{(type === "wrs" || type === "wrms") && <Demo entry={row.original} />}
+				{(type === "wrs" || type === "epics") && <Demo entry={row.original} />}
 			</div>
 		)
 	}
