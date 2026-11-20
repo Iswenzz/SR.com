@@ -3,6 +3,7 @@ import "server-only";
 import { cache } from "react";
 
 import { Leaderboard, Player, Prisma } from "@/generated/prisma/client";
+import { bestTimes } from "@/libs/leaderboards";
 import connectPrisma from "@/libs/prisma";
 import { PlayerEntry } from "@/schemas";
 import { MODES } from "@/utils";
@@ -16,20 +17,22 @@ export const getPlayerEntries = cache(async (type = "pbs", player = "0") => {
 				orderBy: { map: "asc" },
 				select: { name: true, map: true, mode: true, way: true, time: true, date: true }
 			}),
+			// The player's own runs first, each checked against its board's best through the board index;
+			// a window over every board would rank the whole table for one player.
 			prisma.$queryRaw<(Leaderboard & { epic: number | bigint })[]>`
-				SELECT b.map, b.player, p.name, b.mode, b.way, b.time, b.run, b.date,
+				SELECT l.map, l.player, p.name, l.mode, l.way, l.time, l.run, l.date,
 					e.id IS NOT NULL AS epic
-				FROM (
-					SELECT player, map, mode, way, time, tas, run, date,
-						MIN(time) OVER (PARTITION BY map, mode, way, tas) AS minTime
-					FROM leaderboards
-				) b
-				JOIN players p ON p.player = b.player
-				LEFT JOIN epics e ON e.map = b.map AND e.mode = b.mode AND e.way = b.way
-				WHERE b.time = b.minTime
-				AND b.player = ${player}
-				AND b.tas = 0
-				AND b.mode IN (${Prisma.join(MODES)});
+				FROM leaderboards l
+				JOIN players p ON p.player = l.player
+				LEFT JOIN epics e ON e.map = l.map AND e.mode = l.mode AND e.way = l.way
+				WHERE l.player = ${player}
+				AND l.tas = 0
+				AND l.mode IN (${Prisma.join(MODES)})
+				AND l.time = (
+					SELECT MIN(m.time) FROM leaderboards m
+					WHERE m.map = l.map AND m.mode = l.mode AND m.way = l.way AND m.tas = 0
+				)
+				ORDER BY l.map, l.mode, l.way;
 			`,
 			prisma.player.findUnique({ where: { player }, select: { name: true } })
 		]);
@@ -86,21 +89,17 @@ export const getTopPlayers = async () => {
 			wrs: number;
 			epics: number;
 		}[] = await prisma.$queryRaw`
-				SELECT b.player,
+				SELECT l.player,
 					p.name AS name,
 					COUNT(*) AS wrs,
 					COUNT(e.id) AS epics
-				FROM (
-					SELECT player, map, mode, way, time, tas,
-						MIN(time) OVER (PARTITION BY map, mode, way, tas) AS minTime
-					FROM leaderboards
-				) b
-				JOIN players p ON p.player = b.player
-				LEFT JOIN epics e ON e.map = b.map AND e.mode = b.mode AND e.way = b.way
-				WHERE b.time = b.minTime
-				AND b.tas = 0
-				AND b.mode IN (${Prisma.join(MODES)})
-				GROUP BY b.player, p.name;
+				FROM leaderboards l
+				JOIN (${bestTimes}) w ON w.map = l.map AND w.mode = l.mode AND w.way = l.way AND w.time = l.time
+				JOIN players p ON p.player = l.player
+				LEFT JOIN epics e ON e.map = l.map AND e.mode = l.mode AND e.way = l.way
+				WHERE l.tas = 0
+				AND l.mode IN (${Prisma.join(MODES)})
+				GROUP BY l.player, p.name;
 			`;
 
 		return rows
