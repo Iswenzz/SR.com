@@ -1,8 +1,16 @@
 import "server-only";
 
-import { Leaderboard } from "@/generated/prisma/client";
+import { Leaderboard, Prisma } from "@/generated/prisma/client";
 import connectPrisma from "@/libs/prisma";
 import { PlayerEntry } from "@/schemas";
+
+// Every board's best time, which the board index answers a board at a time; join it back on the time.
+export const bestTimes = Prisma.sql`
+	SELECT map, mode, way, MIN(time) AS time
+	FROM leaderboards
+	WHERE tas = 0
+	GROUP BY map, mode, way
+`;
 
 export const getLeaderboard = async (
 	map = "mp_dr_lolz",
@@ -27,14 +35,10 @@ export const getRecentWorldRecords = async (): Promise<PlayerEntry[]> => {
 		const entries: (Leaderboard & { epic: number | bigint })[] = await prisma.$queryRaw`
 			SELECT l.map, l.player, l.name, l.mode, l.way, l.time, l.date,
 				e.id IS NOT NULL AS epic
-			FROM (
-				SELECT map, player, name, mode, way, time, date, tas,
-					MIN(time) OVER (PARTITION BY map, mode, way, tas) AS minTime
-			 	FROM leaderboards
-			) l
+			FROM leaderboards l
+			JOIN (${bestTimes}) w ON w.map = l.map AND w.mode = l.mode AND w.way = l.way AND w.time = l.time
 			LEFT JOIN epics e ON e.map = l.map AND e.mode = l.mode AND e.way = l.way
-			WHERE l.time = l.minTime
-			AND l.tas = 0
+			WHERE l.tas = 0
 			ORDER BY l.date DESC
 			LIMIT 10;
 		`;
@@ -57,12 +61,11 @@ export const isEpic = async (map = "mp_dr_lolz", mode = "190", way = "normal_0")
 
 export const getMaps = async (): Promise<string[]> => {
 	try {
+		// Prisma's distinct dedupes in memory, after reading the map of every row in the table.
 		const prisma = await connectPrisma();
-		const entries = await prisma.leaderboard.findMany({
-			distinct: "map",
-			orderBy: { map: "asc" },
-			select: { map: true }
-		});
+		const entries = await prisma.$queryRaw<{ map: string }[]>`
+			SELECT DISTINCT map FROM leaderboards ORDER BY map;
+		`;
 		return entries.map(entry => entry.map);
 	} catch (e) {
 		console.error(e);
